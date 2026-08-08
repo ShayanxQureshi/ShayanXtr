@@ -229,7 +229,7 @@
             color: var(--red-main);
         }
 
-        /* Stats Grid for Wildcard Tool */
+        /* Stats Grid */
         .stats-grid {
             display: flex;
             gap: 1.5rem;
@@ -246,6 +246,10 @@
             text-align: center;
             box-shadow: 0 5px 15px rgba(0,0,0,0.5);
             transition: transform 0.2s ease, box-shadow 0.2s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
         }
 
         .stat-box:hover {
@@ -261,6 +265,7 @@
             font-family: 'JetBrains Mono', monospace;
             margin-bottom: 0.2rem;
             text-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+            word-break: break-all;
         }
 
         .stat-label {
@@ -269,6 +274,44 @@
             text-transform: uppercase;
             letter-spacing: 1px;
             font-weight: 600;
+        }
+
+        /* Calculator Specific */
+        .calc-row {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .calc-row input {
+            flex: 1;
+            min-height: 50px;
+        }
+
+        .calc-row select {
+            background: var(--bg-input);
+            border: 1px solid var(--border);
+            color: var(--red-main);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 2rem;
+            font-weight: bold;
+            padding: 0 1rem;
+            border-radius: 4px;
+            height: 55px;
+            outline: none;
+            cursor: pointer;
+            box-shadow: 0 0 10px rgba(0,0,0,0.5);
+        }
+
+        .calc-row select:focus {
+            border-color: var(--red-main);
+            box-shadow: 0 0 15px var(--red-glow);
+        }
+
+        .calc-results .stat-value {
+            font-size: 2rem;
+            margin-bottom: 1rem;
         }
 
         /* Buttons */
@@ -327,20 +370,32 @@
             transform: skewX(-10deg) scale(1.05);
         }
 
-        /* Textareas */
-        textarea {
+        /* Inputs */
+        textarea, input[type="text"] {
             width: 100%;
             background: var(--bg-input);
             border: 1px solid var(--bg-base);
             color: var(--text-main);
             font-family: 'JetBrains Mono', monospace;
             font-size: 1.1rem;
-            resize: vertical;
             outline: none;
             line-height: 1.6;
             box-sizing: border-box;
             padding: 1rem;
             border-radius: 4px;
+            transition: border-color 0.3s ease;
+        }
+
+        input[type="text"] {
+            height: 55px;
+        }
+
+        input[type="text"]:focus {
+            border-color: var(--red-dark);
+        }
+
+        textarea {
+            resize: vertical;
             min-height: 120px;
         }
 
@@ -349,7 +404,7 @@
             white-space: pre;
         }
 
-        textarea::placeholder {
+        textarea::placeholder, input::placeholder {
             color: #333644;
         }
 
@@ -388,13 +443,15 @@
         /* Responsive */
         @media (max-width: 768px) {
             .stats-grid { flex-direction: column; gap: 1rem; }
+            .calc-row { flex-direction: column; }
+            .calc-row select { width: 100%; text-align: center; }
         }
 
         @media (max-width: 600px) {
             .logo { font-size: 1.5rem; }
             .section-title { font-size: 2rem; }
             nav { padding: 0 1rem; }
-            textarea { font-size: 0.95rem; }
+            textarea, input[type="text"] { font-size: 0.95rem; }
         }
     </style>
 </head>
@@ -409,6 +466,7 @@
                 <button onclick="switchTool('converter')">AOB Converter</button>
                 <button onclick="switchTool('merger')">AOB Merger</button>
                 <button onclick="switchTool('wildcard')">AOB To Wildcards</button>
+                <button onclick="switchTool('offset')">Offset Calculator</button>
             </div>
         </div>
     </nav>
@@ -417,48 +475,32 @@
         <!-- TOOL 1: CONVERTER -->
         <div id="tool-converter" class="tool-view active">
             <h1 class="section-title">AOB Converter</h1>
-            
             <div class="panel">
                 <div class="panel-header">
                     <h2>Hexadecimal</h2>
                     <button class="action-btn" onclick="copyToClipboard('hexInput')">Copy</button>
                 </div>
-                <textarea id="hexInput" 
-                          placeholder="e.g. 00 FF 66 AA ?? 66" 
-                          oninput="convert('hex')" 
-                          onblur="formatActive('hex')"></textarea>
+                <textarea id="hexInput" placeholder="e.g. 00 FF 66 AA ?? 66" oninput="convert('hex')" onblur="formatActive('hex')"></textarea>
             </div>
-
             <div class="panel">
                 <div class="panel-header">
                     <h2>C++ Bytes</h2>
                     <button class="action-btn" onclick="copyToClipboard('bytesInput')">Copy</button>
                 </div>
-                <textarea id="bytesInput" 
-                          placeholder="e.g. 0x00, 0xFF, 0x66, 0xAA, 0x??, 0x66" 
-                          oninput="convert('bytes')" 
-                          onblur="formatActive('bytes')"></textarea>
+                <textarea id="bytesInput" placeholder="e.g. 0x00, 0xFF, 0x66, 0xAA, 0x??, 0x66" oninput="convert('bytes')" onblur="formatActive('bytes')"></textarea>
             </div>
         </div>
 
         <!-- TOOL 2: MERGER -->
         <div id="tool-merger" class="tool-view">
             <h1 class="section-title">AOB Merger</h1>
-            
             <div class="panel">
-                <div class="panel-header">
-                    <h2>Input Signatures (Multiple Lines)</h2>
-                </div>
-                <textarea id="mergeInput" class="merger-textarea" 
-                          placeholder="Paste multiple AOBs here...&#10;FF FF FF FF 66 44 ?? 00 66&#10;FF FF FF FF 77 44 ?? 00 67&#10;FF 55 FF FF 66 44 ?? 00 ??"></textarea>
+                <div class="panel-header"><h2>Input Signatures (Multiple Lines)</h2></div>
+                <textarea id="mergeInput" class="merger-textarea" placeholder="Paste multiple AOBs here...&#10;FF FF FF FF 66 44 ?? 00 66&#10;FF FF FF FF 77 44 ?? 00 67"></textarea>
             </div>
-
             <div class="merge-btn-container">
-                <button class="merge-btn" onclick="executeMerge()">
-                    <span>Merge AOBs</span>
-                </button>
+                <button class="merge-btn" onclick="executeMerge()"><span>Merge AOBs</span></button>
             </div>
-
             <div class="panel">
                 <div class="panel-header">
                     <h2>Merged Output</h2>
@@ -471,17 +513,10 @@
         <!-- TOOL 3: WILDCARDS -->
         <div id="tool-wildcard" class="tool-view">
             <h1 class="section-title">AOB To Wildcards</h1>
-            
             <div class="panel">
-                <div class="panel-header">
-                    <h2>Input AOB</h2>
-                </div>
-                <textarea id="wildcardInput" 
-                          placeholder="e.g. FF FF FF ?? 00 11" 
-                          oninput="generateWildcards()"></textarea>
+                <div class="panel-header"><h2>Input AOB</h2></div>
+                <textarea id="wildcardInput" placeholder="e.g. FF FF FF ?? 00 11" oninput="generateWildcards()"></textarea>
             </div>
-
-            <!-- Stats Grid for Input Details -->
             <div class="stats-grid">
                 <div class="stat-box">
                     <div class="stat-value" id="stat-total">0</div>
@@ -496,13 +531,44 @@
                     <div class="stat-label">Existing Wildcards</div>
                 </div>
             </div>
-
             <div class="panel">
                 <div class="panel-header">
                     <h2>Wildcard Output</h2>
                     <button class="action-btn" onclick="copyToClipboard('wildcardOutput')">Copy</button>
                 </div>
                 <textarea id="wildcardOutput" placeholder="?? ?? ?? ?? ?? ??" readonly></textarea>
+            </div>
+        </div>
+
+        <!-- TOOL 4: OFFSET CALCULATOR -->
+        <div id="tool-offset" class="tool-view">
+            <h1 class="section-title">Offset Calculator</h1>
+            <div class="panel">
+                <div class="panel-header">
+                    <h2>Calculate Hex / Decimals</h2>
+                </div>
+                
+                <div class="calc-row">
+                    <input type="text" id="calcInputA" placeholder="Base (e.g. 0x54 or 567)" oninput="calculateOffset()" />
+                    <select id="calcOperator" onchange="calculateOffset()">
+                        <option value="+">+</option>
+                        <option value="-">-</option>
+                    </select>
+                    <input type="text" id="calcInputB" placeholder="Offset (e.g. 0x45c or 567)" oninput="calculateOffset()" />
+                </div>
+
+                <div class="stats-grid calc-results">
+                    <div class="stat-box">
+                        <div class="stat-label">Result (Hexadecimal)</div>
+                        <div class="stat-value" id="calcResultHex">---</div>
+                        <button class="action-btn" onclick="copyDivText('calcResultHex')">Copy Hex</button>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-label">Result (Decimal)</div>
+                        <div class="stat-value" id="calcResultDec">---</div>
+                        <button class="action-btn" onclick="copyDivText('calcResultDec')">Copy Dec</button>
+                    </div>
+                </div>
             </div>
         </div>
     </main>
@@ -513,17 +579,13 @@
     <script>
         // --- MENU LOGIC ---
         function toggleMenu() {
-            const menu = document.getElementById('dropdownMenu');
-            menu.classList.toggle('active');
+            document.getElementById('dropdownMenu').classList.toggle('active');
         }
 
-        // Close menu when clicking outside
         document.addEventListener('click', function(event) {
             const wrapper = document.querySelector('.menu-wrapper');
             const menu = document.getElementById('dropdownMenu');
-            if (!wrapper.contains(event.target)) {
-                menu.classList.remove('active');
-            }
+            if (!wrapper.contains(event.target)) menu.classList.remove('active');
         });
 
         function switchTool(toolName) {
@@ -533,161 +595,134 @@
         }
 
         // --- SHARED UTILS ---
-        function normalizeAOB(input) {
-            let cleaned = input.replace(/0x/gi, '');
-            cleaned = cleaned.replace(/[^0-9A-Fa-f\?]/g, '');
-            return cleaned.toUpperCase();
-        }
-
         function copyToClipboard(elementId) {
             const el = document.getElementById(elementId);
             if (!el.value) return;
-
             el.select();
             el.setSelectionRange(0, 99999);
-            navigator.clipboard.writeText(el.value).then(() => {
-                showToast();
-            });
+            navigator.clipboard.writeText(el.value).then(() => showToast());
+        }
+
+        function copyDivText(elementId) {
+            const el = document.getElementById(elementId);
+            if (el.innerText === '---') return;
+            navigator.clipboard.writeText(el.innerText).then(() => showToast());
         }
 
         let toastTimeout;
         function showToast() {
             const toast = document.getElementById('toast');
             toast.classList.add('show');
-            
             clearTimeout(toastTimeout);
-            toastTimeout = setTimeout(() => {
-                toast.classList.remove('show');
-            }, 2000);
+            toastTimeout = setTimeout(() => toast.classList.remove('show'), 2000);
+        }
+
+        function normalizeAOB(input) {
+            let cleaned = input.replace(/0x/gi, '');
+            return cleaned.replace(/[^0-9A-Fa-f\?]/g, '').toUpperCase();
         }
 
         // --- CONVERTER LOGIC ---
         function toHex(normalized) {
             if (!normalized) return '';
             const pairs = normalized.match(/.{1,2}/g) || [];
-            return pairs.map(p => {
-                if (p === '?') return '??';
-                if (p.length === 1 && p !== '?') return '0' + p;
-                return p;
-            }).join(' ');
+            return pairs.map(p => (p === '?' ? '??' : (p.length === 1 && p !== '?' ? '0' + p : p))).join(' ');
         }
 
         function toBytes(normalized) {
             if (!normalized) return '';
             const pairs = normalized.match(/.{1,2}/g) || [];
-            return pairs.map(p => {
-                let val = p;
-                if (p === '?') val = '??';
-                if (p.length === 1 && p !== '?') val = '0' + p;
-                return '0x' + val;
-            }).join(', ');
+            return pairs.map(p => '0x' + (p === '?' ? '??' : (p.length === 1 && p !== '?' ? '0' + p : p))).join(', ');
         }
 
         function convert(source) {
-            const hexEl = document.getElementById('hexInput');
-            const bytesEl = document.getElementById('bytesInput');
-
-            if (source === 'hex') {
-                const norm = normalizeAOB(hexEl.value);
-                bytesEl.value = toBytes(norm);
-            } else if (source === 'bytes') {
-                const norm = normalizeAOB(bytesEl.value);
-                hexEl.value = toHex(norm);
-            }
+            const hexEl = document.getElementById('hexInput'), bytesEl = document.getElementById('bytesInput');
+            if (source === 'hex') bytesEl.value = toBytes(normalizeAOB(hexEl.value));
+            else if (source === 'bytes') hexEl.value = toHex(normalizeAOB(bytesEl.value));
         }
 
         function formatActive(source) {
             const el = document.getElementById(source + 'Input');
-            const norm = normalizeAOB(el.value);
-            
-            if (source === 'hex') {
-                el.value = toHex(norm);
-            } else if (source === 'bytes') {
-                el.value = toBytes(norm);
-            }
+            if (source === 'hex') el.value = toHex(normalizeAOB(el.value));
+            else el.value = toBytes(normalizeAOB(el.value));
         }
 
         // --- MERGER LOGIC ---
         function executeMerge() {
-            const inputText = document.getElementById('mergeInput').value;
-            const lines = inputText.split('\n').map(l => l.trim()).filter(l => l.length > 0);
-            
-            if (lines.length === 0) {
-                document.getElementById('mergeOutput').value = '';
-                return;
-            }
+            const lines = document.getElementById('mergeInput').value.split('\n').map(l => l.trim()).filter(l => l.length > 0);
+            if (lines.length === 0) { document.getElementById('mergeOutput').value = ''; return; }
 
-            const parsedLines = lines.map(line => {
-                const normalized = normalizeAOB(line);
-                return normalized.match(/.{1,2}/g) || [];
-            });
-
-            let maxLength = 0;
-            parsedLines.forEach(arr => {
-                if (arr.length > maxLength) maxLength = arr.length;
-            });
-
+            const parsedLines = lines.map(line => normalizeAOB(line).match(/.{1,2}/g) || []);
+            let maxLength = Math.max(...parsedLines.map(arr => arr.length));
             let mergedAOB = [];
 
             for (let i = 0; i < maxLength; i++) {
-                let currentByte = null;
-                let isWildcard = false;
-
+                let currentByte = null, isWildcard = false;
                 for (let j = 0; j < parsedLines.length; j++) {
                     let byte = parsedLines[j][i];
-                    
                     if (byte === '?') byte = '??';
                     if (byte && byte.length === 1 && byte !== '?') byte = '0' + byte;
 
-                    if (!byte || byte === '??') {
-                        isWildcard = true;
-                        break;
-                    }
-
-                    if (currentByte === null) {
-                        currentByte = byte;
-                    } else if (currentByte !== byte) {
-                        isWildcard = true;
-                        break;
-                    }
+                    if (!byte || byte === '??') { isWildcard = true; break; }
+                    if (currentByte === null) currentByte = byte;
+                    else if (currentByte !== byte) { isWildcard = true; break; }
                 }
-
                 mergedAOB.push(isWildcard ? '??' : currentByte);
             }
-
             document.getElementById('mergeOutput').value = mergedAOB.join(' ');
         }
 
         // --- WILDCARD LOGIC ---
         function generateWildcards() {
-            const input = document.getElementById('wildcardInput').value;
-            const normalized = normalizeAOB(input);
-            const pairs = normalized.match(/.{1,2}/g) || [];
+            const pairs = normalizeAOB(document.getElementById('wildcardInput').value).match(/.{1,2}/g) || [];
+            let total = pairs.length, wild = 0, hex = 0;
             
-            let total = pairs.length;
-            let wildcardsCount = 0;
-            let hexCount = 0;
-
-            pairs.forEach(p => {
-                if (p === '?' || p === '??') {
-                    wildcardsCount++;
-                } else {
-                    hexCount++;
-                }
-            });
-
-            // Update stats
+            pairs.forEach(p => (p === '?' || p === '??') ? wild++ : hex++);
+            
             document.getElementById('stat-total').innerText = total;
-            document.getElementById('stat-hex').innerText = hexCount;
-            document.getElementById('stat-wild').innerText = wildcardsCount;
+            document.getElementById('stat-hex').innerText = hex;
+            document.getElementById('stat-wild').innerText = wild;
+            document.getElementById('wildcardOutput').value = total === 0 ? '' : new Array(total).fill('??').join(' ');
+        }
 
-            // Generate output
-            if (total === 0) {
-                document.getElementById('wildcardOutput').value = '';
-            } else {
-                const outputArr = new Array(total).fill('??');
-                document.getElementById('wildcardOutput').value = outputArr.join(' ');
+        // --- OFFSET CALCULATOR LOGIC ---
+        function parseNumericInput(val) {
+            val = val.trim();
+            if (val === '') return null;
+            try {
+                // Determine if hex (starts with 0x) or decimal (default)
+                if (val.toLowerCase().startsWith('0x')) {
+                    return BigInt(val);
+                } else {
+                    return BigInt(val);
+                }
+            } catch (e) {
+                return null;
             }
+        }
+
+        function calculateOffset() {
+            const valA = parseNumericInput(document.getElementById('calcInputA').value);
+            const valB = parseNumericInput(document.getElementById('calcInputB').value);
+            const op = document.getElementById('calcOperator').value;
+
+            const resHexEl = document.getElementById('calcResultHex');
+            const resDecEl = document.getElementById('calcResultDec');
+
+            if (valA === null || valB === null) {
+                resHexEl.innerText = '---';
+                resDecEl.innerText = '---';
+                return;
+            }
+
+            const result = op === '+' ? (valA + valB) : (valA - valB);
+
+            // Formatting
+            const sign = result < 0n ? '-' : '';
+            const absResult = result < 0n ? -result : result;
+
+            resHexEl.innerText = sign + '0x' + absResult.toString(16).toUpperCase();
+            resDecEl.innerText = result.toString(10);
         }
     </script>
 </body>
