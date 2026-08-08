@@ -449,7 +449,7 @@
         input[type="text"]:focus, textarea:focus { border-color: var(--red-dark); }
         textarea { resize: vertical; min-height: 120px; }
         .merger-textarea { min-height: 200px; white-space: pre; }
-        .bones-textarea { min-height: 380px; white-space: pre; color: #a3be8c; /* hacker green tint for class */ }
+        .bones-textarea { min-height: 420px; white-space: pre; color: #a3be8c; /* hacker green tint for class */ }
         textarea::placeholder, input::placeholder { color: #333644; }
 
         /* Scrollbar */
@@ -775,7 +775,8 @@
             RightHand: 0x3C,
             LeftHand: 0x40,
             RightElbow: 0x44,
-            LeftElbow: 0x48
+            LeftElbow: 0x48,
+            HeadCollider: 0x4C
         };
 
         function startBonesFinder() {
