@@ -156,7 +156,7 @@
         .calc-row input { flex: 1; min-height: 50px; }
         .calc-row select {
             background: var(--bg-input); border: 1px solid var(--border); color: var(--red-main);
-            font-family: 'JetBrains Mono', monospace; font-size: 2rem; font-weight: bold;
+            font-family: 'JetBrains Mono', monospace; font-size: 1.1rem; font-weight: bold;
             padding: 0 1rem; border-radius: 4px; height: 55px; outline: none; cursor: pointer; box-shadow: 0 0 10px rgba(0,0,0,0.5);
         }
 
@@ -291,6 +291,7 @@
                 <button onclick="switchTool('bones')">Bones Finder</button>
                 <button onclick="switchTool('pixel')">Pixel Convert</button>
                 <button onclick="switchTool('ttf')">TTF Font Maker</button>
+                <button onclick="switchTool('video')">Video Compressor</button>
             </div>
         </div>
     </nav>
@@ -443,50 +444,129 @@
         <!-- TOOL 7: TTF FONT MAKER -->
         <div id="tool-ttf" class="tool-view">
             <h1 class="section-title">TTF Font Maker</h1>
-            
             <div class="panel">
-                <div class="panel-header">
-                    <h2>Select Emoji Folder (PNGs)</h2>
-                </div>
+                <div class="panel-header"><h2>Select Emoji Folder (PNGs)</h2></div>
                 <div class="file-input-wrapper">
-                    <!-- webkitdirectory allows folder selection -->
                     <input type="file" id="folderInput" class="file-input" webkitdirectory directory multiple onchange="handleFolderUpload(event)" />
                 </div>
                 <div class="stats-grid" style="margin-bottom: 1.5rem;">
-                    <div class="stat-box">
-                        <div class="stat-value" id="ttf-file-count">0</div>
-                        <div class="stat-label">Valid PNGs Found</div>
-                    </div>
+                    <div class="stat-box"><div class="stat-value" id="ttf-file-count">0</div><div class="stat-label">Valid PNGs Found</div></div>
                 </div>
                 <div class="image-preview-container" id="ttf-preview-container" style="min-height: 100px;">
                     <span id="ttf-preview-placeholder" style="color: var(--text-dim); font-family: 'JetBrains Mono', monospace;">Awaiting Folder Upload...</span>
                 </div>
             </div>
-
             <div class="merge-btn-container">
-                <button class="merge-btn" id="generateTtfBtn" onclick="generateTTF()" disabled>
-                    <span>Generate .TTF</span>
-                </button>
+                <button class="merge-btn" id="generateTtfBtn" onclick="generateTTF()" disabled><span>Generate .TTF</span></button>
             </div>
-
             <div class="panel">
-                <div class="panel-header">
-                    <h2>Compilation Status</h2>
-                </div>
-                
+                <div class="panel-header"><h2>Compilation Status</h2></div>
                 <div id="ttf-loader" class="cyber-loader">
                     <div class="scan-text" id="ttf-scan-text">[>>] INITIALIZING FONT COMPILER...</div>
                     <div class="scan-bar-container"><div class="scan-bar"></div></div>
                 </div>
-
                 <div id="ttf-output-container" style="display: none; text-align: center;">
                     <h2 style="color: #a3be8c; margin-bottom: 1.5rem;">Font Compiled Successfully!</h2>
                     <p style="color: var(--text-dim); margin-bottom: 2rem; font-family: 'JetBrains Mono', monospace; font-size: 0.9rem;">
                         Note: Native client-side raster-to-vector tracing is limited. Generating simulated TTF package.
                     </p>
                     <div class="merge-btn-container">
-                        <a id="ttfDownloadLink" class="merge-btn" download="EmojiFont_Custom.ttf">
-                            <span>Download .TTF</span>
+                        <a id="ttfDownloadLink" class="merge-btn" download="EmojiFont_Custom.ttf"><span>Download .TTF</span></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TOOL 8: VIDEO COMPRESSOR -->
+        <div id="tool-video" class="tool-view">
+            <h1 class="section-title">Video Size Compressor</h1>
+            
+            <div class="panel">
+                <div class="panel-header">
+                    <h2>Select Video File</h2>
+                </div>
+                <div class="file-input-wrapper">
+                    <input type="file" id="videoInput" accept="video/*" class="file-input" onchange="handleVideoUpload(event)" />
+                </div>
+                
+                <div class="stats-grid" style="margin-bottom: 1rem;">
+                    <div class="stat-box">
+                        <div class="stat-label">Original Size</div>
+                        <div class="stat-value" id="video-orig-size">0 MB</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-label">Resolution</div>
+                        <div class="stat-value" id="video-orig-res">---</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-label">Duration</div>
+                        <div class="stat-value" id="video-orig-dur">0s</div>
+                    </div>
+                </div>
+
+                <div class="image-preview-container" style="padding: 0;">
+                    <span id="videoPreviewPlaceholder" style="color: var(--text-dim); font-family: 'JetBrains Mono', monospace; padding: 2rem;">No Video Uploaded</span>
+                    <video id="videoPreview" controls style="display: none; max-width: 100%; max-height: 350px; border-radius: 4px;"></video>
+                </div>
+            </div>
+
+            <div class="panel">
+                <div class="panel-header">
+                    <h2>Compression Settings</h2>
+                </div>
+                <div class="calc-row">
+                    <div>
+                        <label>Resolution Scale</label>
+                        <select id="videoScale">
+                            <option value="1.0">100% (Original Resolution)</option>
+                            <option value="0.75">75% Scale</option>
+                            <option value="0.50" selected>50% Scale (Recommended)</option>
+                            <option value="0.30">30% Scale (High Compression)</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label>Target Bitrate / Quality</label>
+                        <select id="videoBitrate">
+                            <option value="2500000">High Quality (2.5 Mbps)</option>
+                            <option value="1200000" selected>Medium Quality (1.2 Mbps)</option>
+                            <option value="600000">Low Quality (600 Kbps)</option>
+                            <option value="300000">Extreme Low (300 Kbps)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="merge-btn-container" style="margin-top: 1.5rem;">
+                    <button class="merge-btn" id="videoCompressBtn" onclick="executeVideoCompression()" disabled>
+                        <span>Compress Video</span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="panel">
+                <div class="panel-header">
+                    <h2>Compression Results</h2>
+                </div>
+
+                <div id="video-loader" class="cyber-loader">
+                    <div class="scan-text" id="video-progress-text">COMPRESSING VIDEO... 0%</div>
+                    <div class="scan-bar-container"><div class="scan-bar"></div></div>
+                </div>
+
+                <div id="video-output-container" style="display: none; text-align: center;">
+                    <div class="stats-grid" style="margin-bottom: 2rem;">
+                        <div class="stat-box">
+                            <div class="stat-label">Compressed Size</div>
+                            <div class="stat-value" id="compressed-size-val" style="color: #a3be8c;">0 MB</div>
+                        </div>
+                        <div class="stat-box">
+                            <div class="stat-label">Space Saved</div>
+                            <div class="stat-value" id="compressed-saved-val" style="color: var(--red-main);">-0%</div>
+                        </div>
+                    </div>
+
+                    <div class="merge-btn-container">
+                        <a id="videoDownloadBtn" class="merge-btn" download="compressed_video.webm">
+                            <span>Save Video</span>
                         </a>
                     </div>
                 </div>
@@ -719,11 +799,9 @@
         function handleFolderUpload(event) {
             const files = event.target.files;
             ttfPngFiles = [];
-            
             const previewContainer = document.getElementById('ttf-preview-container');
-            previewContainer.innerHTML = ''; // Clear previews
+            previewContainer.innerHTML = ''; 
 
-            // Filter for PNGs
             for (let i = 0; i < files.length; i++) {
                 if (files[i].type === "image/png" || files[i].name.toLowerCase().endsWith('.png')) {
                     ttfPngFiles.push(files[i]);
@@ -735,21 +813,16 @@
 
             if (ttfPngFiles.length === 0) {
                 previewContainer.innerHTML = `<span style="color: var(--text-dim); font-family: 'JetBrains Mono', monospace;">No PNGs found in folder.</span>`;
-                btn.disabled = true;
-                return;
+                btn.disabled = true; return;
             }
 
             btn.disabled = false;
-
-            // Generate previews for the first 15 images
             const maxPreviews = Math.min(ttfPngFiles.length, 15);
             for (let i = 0; i < maxPreviews; i++) {
                 const reader = new FileReader();
                 reader.onload = function(e) {
                     const img = document.createElement('img');
-                    img.src = e.target.result;
-                    img.className = 'emoji-thumb';
-                    img.title = ttfPngFiles[i].name;
+                    img.src = e.target.result; img.className = 'emoji-thumb'; img.title = ttfPngFiles[i].name;
                     previewContainer.appendChild(img);
                 }
                 reader.readAsDataURL(ttfPngFiles[i]);
@@ -765,44 +838,139 @@
 
         function generateTTF() {
             if (ttfPngFiles.length === 0) return;
-
             document.getElementById('ttf-output-container').style.display = 'none';
             document.getElementById('ttf-loader').style.display = 'flex';
 
             const scanText = document.getElementById('ttf-scan-text');
             const messages = [
-                "[>>] INITIALIZING FONT COMPILER...",
-                "[>>] PARSING PNG PIXEL DATA...",
-                "[>>] TRACING RASTER TO VECTOR PATHS...",
-                "[>>] GENERATING GLYPH OUTLINES...",
-                "[>>] WRITING TTF TABLES (cmap, glyf, head)...",
-                "[>>] PACKAGING FONT FILE..."
+                "[>>] INITIALIZING FONT COMPILER...", "[>>] PARSING PNG PIXEL DATA...",
+                "[>>] TRACING RASTER TO VECTOR PATHS...", "[>>] GENERATING GLYPH OUTLINES...",
+                "[>>] WRITING TTF TABLES (cmap, glyf, head)...", "[>>] PACKAGING FONT FILE..."
             ];
-            
             let msgIndex = 0;
             const textInterval = setInterval(() => {
-                msgIndex++;
-                if (msgIndex < messages.length) scanText.innerText = messages[msgIndex];
+                msgIndex++; if (msgIndex < messages.length) scanText.innerText = messages[msgIndex];
             }, 700);
 
-            // Fake processing delay to simulate heavy compilation (4.5 seconds)
             setTimeout(() => {
-                clearInterval(textInterval);
-                scanText.innerText = "[>>] INITIALIZING FONT COMPILER..."; 
-
-                // Generate Dummy TTF Blob (Since native JS tracing isn't feasible here)
-                const dummyContent = "MOCK_TTF_HEADER\x00\x01\x00\x00\x00\x0F\x00\x80\x00\x03\x00\x10This is a simulated TTF payload generated by AOB Tool due to client-side limitations.";
+                clearInterval(textInterval); scanText.innerText = "[>>] INITIALIZING FONT COMPILER..."; 
+                const dummyContent = "MOCK_TTF_HEADER\x00\x01\x00\x00\x00\x0F\x00\x80\x00\x03\x00\x10This is a simulated TTF payload generated by AOB Tool.";
                 const blob = new Blob([dummyContent], { type: 'font/ttf' });
-                const url = URL.createObjectURL(blob);
-
-                const downloadLink = document.getElementById('ttfDownloadLink');
-                downloadLink.href = url;
-
+                document.getElementById('ttfDownloadLink').href = URL.createObjectURL(blob);
                 document.getElementById('ttf-loader').style.display = 'none';
                 document.getElementById('ttf-output-container').style.display = 'block';
-                
                 showToast('Font Compilation Complete!');
             }, 4500);
+        }
+
+        // --- VIDEO COMPRESSOR LOGIC ---
+        let uploadedVideoFile = null;
+        let originalVideoElement = document.createElement('video');
+
+        function handleVideoUpload(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            uploadedVideoFile = file;
+
+            const sizeMB = (file.size / (1024 * 1024)).toFixed(2);
+            document.getElementById('video-orig-size').innerText = `${sizeMB} MB`;
+
+            const url = URL.createObjectURL(file);
+            originalVideoElement.src = url;
+            originalVideoElement.muted = true;
+            originalVideoElement.playsInline = true;
+
+            originalVideoElement.onloadedmetadata = function() {
+                document.getElementById('video-orig-res').innerText = `${originalVideoElement.videoWidth}x${originalVideoElement.videoHeight}`;
+                document.getElementById('video-orig-dur').innerText = `${Math.round(originalVideoElement.duration)}s`;
+                document.getElementById('videoCompressBtn').disabled = false;
+                
+                const preview = document.getElementById('videoPreview');
+                preview.src = url;
+                preview.style.display = 'block';
+                document.getElementById('videoPreviewPlaceholder').style.display = 'none';
+                document.getElementById('video-output-container').style.display = 'none';
+            };
+        }
+
+        function executeVideoCompression() {
+            if (!uploadedVideoFile || !originalVideoElement.duration) return;
+
+            const scale = parseFloat(document.getElementById('videoScale').value) || 0.5;
+            const targetBitrate = parseInt(document.getElementById('videoBitrate').value) || 1200000;
+
+            const targetWidth = Math.round(originalVideoElement.videoWidth * scale);
+            const targetHeight = Math.round(originalVideoElement.videoHeight * scale);
+
+            const canvas = document.createElement('canvas');
+            canvas.width = targetWidth;
+            canvas.height = targetHeight;
+            const ctx = canvas.getContext('2d');
+
+            const stream = canvas.captureStream(30);
+            
+            let mimeType = 'video/webm;codecs=vp8';
+            if (!MediaRecorder.isTypeSupported(mimeType)) {
+                if (MediaRecorder.isTypeSupported('video/webm')) mimeType = 'video/webm';
+                else if (MediaRecorder.isTypeSupported('video/mp4')) mimeType = 'video/mp4';
+            }
+
+            let mediaRecorder;
+            try {
+                mediaRecorder = new MediaRecorder(stream, { mimeType: mimeType, videoBitsPerSecond: targetBitrate });
+            } catch (e) {
+                alert('MediaRecorder is not supported for this format in your browser.');
+                return;
+            }
+
+            const chunks = [];
+            mediaRecorder.ondataavailable = e => { if (e.data.size > 0) chunks.push(e.data); };
+
+            mediaRecorder.onstop = () => {
+                const compressedBlob = new Blob(chunks, { type: mimeType });
+                const compressedSizeMB = (compressedBlob.size / (1024 * 1024)).toFixed(2);
+                const origSizeMB = uploadedVideoFile.size / (1024 * 1024);
+                const savedPercent = Math.max(0, Math.round(((origSizeMB - (compressedBlob.size / (1024 * 1024))) / origSizeMB) * 100));
+
+                document.getElementById('compressed-size-val').innerText = `${compressedSizeMB} MB`;
+                document.getElementById('compressed-saved-val').innerText = `-${savedPercent}%`;
+
+                const downloadBtn = document.getElementById('videoDownloadBtn');
+                downloadBtn.href = URL.createObjectURL(compressedBlob);
+                const ext = mimeType.includes('mp4') ? 'mp4' : 'webm';
+                downloadBtn.download = `compressed_video.${ext}`;
+
+                document.getElementById('video-loader').style.display = 'none';
+                document.getElementById('video-output-container').style.display = 'block';
+                showToast('Video Compressed Successfully!');
+            };
+
+            document.getElementById('video-output-container').style.display = 'none';
+            document.getElementById('video-loader').style.display = 'flex';
+
+            originalVideoElement.currentTime = 0;
+            originalVideoElement.play();
+            mediaRecorder.start();
+
+            let animFrameId;
+            function renderFrame() {
+                if (!originalVideoElement.paused && !originalVideoElement.ended) {
+                    ctx.drawImage(originalVideoElement, 0, 0, targetWidth, targetHeight);
+                    const progress = Math.min(100, Math.round((originalVideoElement.currentTime / originalVideoElement.duration) * 100));
+                    document.getElementById('video-progress-text').innerText = `COMPRESSING VIDEO... ${progress}%`;
+                    animFrameId = requestAnimationFrame(renderFrame);
+                } else if (originalVideoElement.ended) {
+                    cancelAnimationFrame(animFrameId);
+                    if (mediaRecorder.state === 'recording') mediaRecorder.stop();
+                }
+            }
+
+            originalVideoElement.onended = () => {
+                cancelAnimationFrame(animFrameId);
+                if (mediaRecorder.state === 'recording') mediaRecorder.stop();
+            };
+
+            renderFrame();
         }
     </script>
 </body>
