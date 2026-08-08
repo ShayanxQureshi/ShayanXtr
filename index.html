@@ -68,389 +68,183 @@
         }
 
         /* Menu Button */
-        .menu-wrapper {
-            position: relative;
-        }
+        .menu-wrapper { position: relative; }
 
         .menu-btn {
-            background: transparent;
-            border: 1px solid var(--border);
-            color: var(--text-main);
-            width: 45px;
-            height: 45px;
-            border-radius: 4px;
-            font-size: 1.5rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            background: transparent; border: 1px solid var(--border);
+            color: var(--text-main); width: 45px; height: 45px;
+            border-radius: 4px; font-size: 1.5rem; cursor: pointer;
+            transition: all 0.3s ease; display: flex; justify-content: center; align-items: center;
         }
-
-        .menu-btn:hover {
-            border-color: var(--red-main);
-            color: var(--red-main);
-            box-shadow: 0 0 15px var(--red-glow);
-        }
+        .menu-btn:hover { border-color: var(--red-main); color: var(--red-main); box-shadow: 0 0 15px var(--red-glow); }
 
         .dropdown {
-            position: absolute;
-            top: 60px;
-            right: 0;
-            background: var(--bg-panel);
-            border: 1px solid var(--red-dark);
-            border-radius: 4px;
-            width: 220px;
-            display: none;
-            flex-direction: column;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.8), 0 0 20px var(--red-glow);
-            overflow: hidden;
+            position: absolute; top: 60px; right: 0;
+            background: var(--bg-panel); border: 1px solid var(--red-dark);
+            border-radius: 4px; width: 220px; display: none; flex-direction: column;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.8), 0 0 20px var(--red-glow); overflow: hidden;
         }
-
-        .dropdown.active {
-            display: flex;
-            animation: slideDown 0.2s ease forwards;
-        }
+        .dropdown.active { display: flex; animation: slideDown 0.2s ease forwards; }
 
         .dropdown button {
-            background: transparent;
-            border: none;
-            border-bottom: 1px solid var(--border);
-            color: var(--text-main);
-            padding: 1rem;
-            text-align: left;
-            font-family: 'Rajdhani', sans-serif;
-            font-size: 1.1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            text-transform: uppercase;
-            letter-spacing: 1px;
+            background: transparent; border: none; border-bottom: 1px solid var(--border);
+            color: var(--text-main); padding: 1rem; text-align: left;
+            font-family: 'Rajdhani', sans-serif; font-size: 1.1rem; font-weight: 600;
+            cursor: pointer; transition: all 0.2s ease; text-transform: uppercase; letter-spacing: 1px;
         }
-
         .dropdown button:last-child { border-bottom: none; }
+        .dropdown button:hover { background: rgba(255, 30, 30, 0.1); color: var(--red-main); padding-left: 1.5rem; }
 
-        .dropdown button:hover {
-            background: rgba(255, 30, 30, 0.1);
-            color: var(--red-main);
-            padding-left: 1.5rem;
-        }
-
-        @keyframes slideDown {
-            from { opacity: 0; transform: translateY(-10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+        @keyframes slideDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
 
         /* Main Content Container */
         main {
-            margin-top: 100px;
-            width: 90%;
-            max-width: 900px;
-            display: flex;
-            flex-direction: column;
-            gap: 2rem;
-            padding-bottom: 4rem;
+            margin-top: 100px; width: 90%; max-width: 900px;
+            display: flex; flex-direction: column; gap: 2rem; padding-bottom: 4rem;
         }
 
-        .tool-view {
-            display: none;
-            flex-direction: column;
-            gap: 2rem;
-        }
+        .tool-view { display: none; flex-direction: column; gap: 2rem; }
+        .tool-view.active { display: flex; animation: fadeIn 0.4s ease forwards; }
 
-        .tool-view.active {
-            display: flex;
-            animation: fadeIn 0.4s ease forwards;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: scale(0.98); }
-            to { opacity: 1; transform: scale(1); }
-        }
+        @keyframes fadeIn { from { opacity: 0; transform: scale(0.98); } to { opacity: 1; transform: scale(1); } }
 
         /* Headers */
         .section-title {
-            font-size: 2.5rem;
-            font-weight: 700;
-            margin: 0;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            border-left: 4px solid var(--red-main);
-            padding-left: 1rem;
+            font-size: 2.5rem; font-weight: 700; margin: 0; text-transform: uppercase;
+            letter-spacing: 2px; border-left: 4px solid var(--red-main); padding-left: 1rem;
             text-shadow: 0 0 10px var(--red-glow);
         }
 
         /* Panels */
         .panel {
-            background: var(--bg-panel);
-            border: 1px solid var(--border);
-            border-radius: 6px;
-            padding: 1.5rem;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.5);
-            position: relative;
-            transition: all 0.3s ease;
+            background: var(--bg-panel); border: 1px solid var(--border);
+            border-radius: 6px; padding: 1.5rem; box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+            position: relative; transition: all 0.3s ease;
         }
-
         .panel::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; right: 0;
-            height: 2px;
+            content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
             background: linear-gradient(90deg, transparent, var(--red-main), transparent);
-            opacity: 0;
-            transition: opacity 0.3s ease;
+            opacity: 0; transition: opacity 0.3s ease;
         }
-
-        .panel:focus-within {
-            border-color: var(--red-dark);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.8), 0 0 15px var(--red-glow);
-        }
-
+        .panel:focus-within { border-color: var(--red-dark); box-shadow: 0 10px 30px rgba(0,0,0,0.8), 0 0 15px var(--red-glow); }
         .panel:focus-within::before { opacity: 1; }
 
-        .panel-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1rem;
-        }
-
-        .panel-header h2 {
-            font-size: 1.5rem;
-            margin: 0;
-            color: var(--text-dim);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
+        .panel-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; }
+        .panel-header h2 { font-size: 1.5rem; margin: 0; color: var(--text-dim); text-transform: uppercase; letter-spacing: 1px; }
 
         /* Stats Grid */
-        .stats-grid {
-            display: flex;
-            gap: 1.5rem;
-            width: 100%;
-        }
-
+        .stats-grid { display: flex; gap: 1.5rem; width: 100%; }
         .stat-box {
-            flex: 1;
-            background: var(--bg-panel);
-            border: 1px solid var(--border);
-            border-top: 3px solid var(--red-main);
-            border-radius: 4px;
-            padding: 1.5rem 1rem;
-            text-align: center;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+            flex: 1; background: var(--bg-panel); border: 1px solid var(--border);
+            border-top: 3px solid var(--red-main); border-radius: 4px; padding: 1.5rem 1rem;
+            text-align: center; box-shadow: 0 5px 15px rgba(0,0,0,0.5);
             transition: transform 0.2s ease, box-shadow 0.2s ease;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
         }
-
-        .stat-box:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px var(--red-glow);
-            border-color: var(--red-dark);
-        }
-
+        .stat-box:hover { transform: translateY(-5px); box-shadow: 0 10px 25px var(--red-glow); border-color: var(--red-dark); }
         .stat-value {
-            font-size: 2.5rem;
-            font-weight: 700;
-            color: var(--text-main);
-            font-family: 'JetBrains Mono', monospace;
-            margin-bottom: 0.2rem;
-            text-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
-            word-break: break-all;
+            font-size: 2.5rem; font-weight: 700; color: var(--text-main); font-family: 'JetBrains Mono', monospace;
+            margin-bottom: 0.2rem; text-shadow: 0 0 10px rgba(255, 255, 255, 0.2); word-break: break-all;
         }
+        .stat-label { font-size: 0.95rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 1px; font-weight: 600; }
 
-        .stat-label {
-            font-size: 0.95rem;
-            color: var(--text-dim);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            font-weight: 600;
-        }
-
-        /* Calculator Specific */
-        .calc-row {
-            display: flex;
-            gap: 1rem;
-            align-items: center;
-            margin-bottom: 1.5rem;
-        }
-
+        /* Forms & Inputs */
+        .calc-row { display: flex; gap: 1rem; align-items: center; margin-bottom: 1.5rem; width: 100%; }
+        .calc-row > div { flex: 1; display: flex; flex-direction: column; gap: 0.5rem; }
+        .calc-row label { color: var(--text-dim); text-transform: uppercase; font-weight: bold; font-size: 0.9rem; }
         .calc-row input { flex: 1; min-height: 50px; }
-
         .calc-row select {
-            background: var(--bg-input);
-            border: 1px solid var(--border);
-            color: var(--red-main);
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 2rem;
-            font-weight: bold;
-            padding: 0 1rem;
-            border-radius: 4px;
-            height: 55px;
-            outline: none;
-            cursor: pointer;
-            box-shadow: 0 0 10px rgba(0,0,0,0.5);
+            background: var(--bg-input); border: 1px solid var(--border); color: var(--red-main);
+            font-family: 'JetBrains Mono', monospace; font-size: 2rem; font-weight: bold;
+            padding: 0 1rem; border-radius: 4px; height: 55px; outline: none; cursor: pointer; box-shadow: 0 0 10px rgba(0,0,0,0.5);
         }
 
-        /* Loading / Scanning Animation (Bones Finder) */
-        .cyber-loader {
-            display: none;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 3rem 0;
-            gap: 1rem;
-        }
-
-        .scan-text {
-            font-family: 'JetBrains Mono', monospace;
-            color: var(--red-main);
-            font-size: 1.2rem;
-            letter-spacing: 2px;
-            text-shadow: 0 0 10px var(--red-main);
-            animation: pulseText 1s infinite alternate;
-        }
-
-        .scan-bar-container {
-            width: 80%;
-            height: 4px;
-            background: var(--border);
-            border-radius: 2px;
-            position: relative;
-            overflow: hidden;
-            box-shadow: 0 0 10px rgba(0,0,0,0.8);
-        }
-
-        .scan-bar {
-            position: absolute;
-            top: 0; left: 0; height: 100%;
-            width: 30%;
-            background: var(--red-main);
-            box-shadow: 0 0 15px var(--red-main);
-            animation: scanAnim 1.5s ease-in-out infinite alternate;
-        }
-
-        @keyframes scanAnim {
-            0% { left: -30%; }
-            100% { left: 100%; }
-        }
-
-        @keyframes pulseText {
-            0% { opacity: 0.6; }
-            100% { opacity: 1; text-shadow: 0 0 20px var(--red-main); }
-        }
-
-        /* Support & Dev Banner */
-        .support-card {
-            display: flex;
-            background: rgba(18, 19, 24, 0.9);
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            margin-top: 1rem;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.5);
-            position: relative;
-            overflow: hidden;
-            flex-wrap: wrap;
-        }
-
-        .support-card::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 2px;
-            background: linear-gradient(90deg, var(--blurple) 0%, var(--red-main) 100%);
-        }
-
-        .support-section {
-            flex: 1;
-            padding: 2rem;
-            display: flex;
-            align-items: center;
-            gap: 1.5rem;
-            min-width: 300px;
-        }
-
-        .support-discord { border-right: 1px solid var(--border); background: linear-gradient(135deg, rgba(88, 101, 242, 0.05) 0%, transparent 100%); }
-        .support-dev { background: linear-gradient(135deg, rgba(255, 30, 30, 0.05) 0%, transparent 100%); }
-
-        .support-icon {
-            width: 50px;
-            height: 50px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            border-radius: 12px;
-            flex-shrink: 0;
-        }
-
-        .icon-discord { background: var(--blurple); box-shadow: 0 0 20px var(--blurple-glow); }
-        .icon-dev { background: var(--bg-input); border: 1px solid var(--red-main); box-shadow: 0 0 20px var(--red-glow); }
-
-        .support-info h3 { margin: 0 0 0.2rem 0; font-size: 1.3rem; text-transform: uppercase; letter-spacing: 1px; }
-        .support-discord h3 { color: #fff; }
-        .support-dev h3 { color: var(--red-main); }
-
-        .support-info p { margin: 0; color: var(--text-dim); font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; margin-bottom: 1rem; }
-
-        .btn-link {
-            display: inline-block;
-            text-decoration: none;
-            padding: 0.5rem 1.2rem;
-            border-radius: 4px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            font-size: 0.9rem;
-            transition: all 0.2s ease;
-        }
-
-        .btn-discord { background: rgba(88, 101, 242, 0.1); border: 1px solid var(--blurple); color: #fff; }
-        .btn-discord:hover { background: var(--blurple); box-shadow: 0 0 15px var(--blurple); }
-        .btn-dev { background: rgba(255, 30, 30, 0.1); border: 1px solid var(--red-dark); color: var(--red-main); }
-        .btn-dev:hover { background: var(--red-main); color: #000; box-shadow: 0 0 15px var(--red-main); }
+        .checkbox-row { display: flex; align-items: center; gap: 0.8rem; margin-bottom: 1.5rem; }
+        .checkbox-row input[type="checkbox"] { accent-color: var(--red-main); width: 22px; height: 22px; cursor: pointer; }
+        .checkbox-row label { font-size: 1.1rem; cursor: pointer; color: var(--text-main); font-weight: 600; }
 
         /* Buttons */
         .action-btn {
-            background: rgba(255, 30, 30, 0.1);
-            border: 1px solid var(--red-dark);
-            color: var(--red-main);
-            padding: 0.5rem 1.2rem;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 1rem;
-            font-weight: 600;
-            font-family: 'Rajdhani', sans-serif;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            transition: all 0.2s ease;
+            background: rgba(255, 30, 30, 0.1); border: 1px solid var(--red-dark); color: var(--red-main);
+            padding: 0.5rem 1.2rem; border-radius: 4px; cursor: pointer; font-size: 1rem; font-weight: 600;
+            font-family: 'Rajdhani', sans-serif; text-transform: uppercase; letter-spacing: 1px; transition: all 0.2s ease;
         }
         .action-btn:hover { background: var(--red-main); color: var(--bg-base); box-shadow: 0 0 15px var(--red-main); }
 
-        .merge-btn-container { display: flex; justify-content: center; margin: -0.5rem 0; z-index: 10; }
+        .merge-btn-container { display: flex; justify-content: center; margin: 0.5rem 0; z-index: 10; width: 100%; }
         .merge-btn {
             background: var(--red-main); color: #000; font-size: 1.5rem; padding: 1rem 3rem;
             border: none; border-radius: 4px; font-family: 'Rajdhani', sans-serif; font-weight: 700;
             text-transform: uppercase; letter-spacing: 3px; cursor: pointer;
             box-shadow: 0 0 20px rgba(255, 30, 30, 0.4); transition: all 0.2s ease; transform: skewX(-10deg);
+            display: inline-block; text-decoration: none; text-align: center;
         }
         .merge-btn span { display: inline-block; transform: skewX(10deg); }
         .merge-btn:hover { box-shadow: 0 0 30px var(--red-main); transform: skewX(-10deg) scale(1.05); }
 
-        /* Inputs */
-        textarea, input[type="text"] {
-            width: 100%; background: var(--bg-input); border: 1px solid var(--bg-base);
+        /* File Upload */
+        .file-input-wrapper { position: relative; width: 100%; margin-bottom: 1rem; }
+        .file-input {
+            width: 100%; padding: 15px; background: rgba(255, 30, 30, 0.05); border: 2px dashed var(--red-dark);
+            color: var(--text-main); border-radius: 4px; cursor: pointer; font-family: 'Rajdhani', sans-serif;
+            font-size: 1.1rem; box-sizing: border-box; text-align: center; transition: all 0.3s ease; outline: none;
+        }
+        .file-input:hover { background: rgba(255, 30, 30, 0.1); border-color: var(--red-main); }
+        .image-preview-container {
+            width: 100%; display: flex; justify-content: center; align-items: center; 
+            background: var(--bg-input); border: 1px solid var(--border); border-radius: 4px;
+            padding: 1rem; box-sizing: border-box; min-height: 150px;
+        }
+
+        /* Textareas & Inputs */
+        textarea, input[type="text"], input[type="number"] {
+            width: 100%; background: var(--bg-input); border: 1px solid var(--border);
             color: var(--text-main); font-family: 'JetBrains Mono', monospace; font-size: 1.1rem;
             outline: none; line-height: 1.6; box-sizing: border-box; padding: 1rem; border-radius: 4px;
             transition: border-color 0.3s ease;
         }
-        input[type="text"] { height: 55px; }
-        input[type="text"]:focus, textarea:focus { border-color: var(--red-dark); }
+        input[type="text"], input[type="number"] { height: 55px; }
+        input[type="text"]:focus, input[type="number"]:focus, textarea:focus { border-color: var(--red-dark); box-shadow: 0 0 10px rgba(255,0,0,0.1); }
         textarea { resize: vertical; min-height: 120px; }
         .merger-textarea { min-height: 200px; white-space: pre; }
-        .bones-textarea { min-height: 420px; white-space: pre; color: #a3be8c; /* hacker green tint for class */ }
+        .bones-textarea { min-height: 420px; white-space: pre; color: #a3be8c; }
         textarea::placeholder, input::placeholder { color: #333644; }
+
+        /* Cyber Loader */
+        .cyber-loader { display: none; flex-direction: column; align-items: center; justify-content: center; padding: 3rem 0; gap: 1rem; }
+        .scan-text { font-family: 'JetBrains Mono', monospace; color: var(--red-main); font-size: 1.2rem; letter-spacing: 2px; text-shadow: 0 0 10px var(--red-main); animation: pulseText 1s infinite alternate; }
+        .scan-bar-container { width: 80%; height: 4px; background: var(--border); border-radius: 2px; position: relative; overflow: hidden; box-shadow: 0 0 10px rgba(0,0,0,0.8); }
+        .scan-bar { position: absolute; top: 0; left: 0; height: 100%; width: 30%; background: var(--red-main); box-shadow: 0 0 15px var(--red-main); animation: scanAnim 1.5s ease-in-out infinite alternate; }
+        
+        @keyframes scanAnim { 0% { left: -30%; } 100% { left: 100%; } }
+        @keyframes pulseText { 0% { opacity: 0.6; } 100% { opacity: 1; text-shadow: 0 0 20px var(--red-main); } }
+
+        /* Support Banner */
+        .support-card {
+            display: flex; background: rgba(18, 19, 24, 0.9); border: 1px solid var(--border);
+            border-radius: 8px; margin-top: 1rem; box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+            position: relative; overflow: hidden; flex-wrap: wrap;
+        }
+        .support-card::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 2px; background: linear-gradient(90deg, var(--blurple) 0%, var(--red-main) 100%); }
+        .support-section { flex: 1; padding: 2rem; display: flex; align-items: center; gap: 1.5rem; min-width: 300px; }
+        .support-discord { border-right: 1px solid var(--border); background: linear-gradient(135deg, rgba(88, 101, 242, 0.05) 0%, transparent 100%); }
+        .support-dev { background: linear-gradient(135deg, rgba(255, 30, 30, 0.05) 0%, transparent 100%); }
+        .support-icon { width: 50px; height: 50px; display: flex; justify-content: center; align-items: center; border-radius: 12px; flex-shrink: 0; }
+        .icon-discord { background: var(--blurple); box-shadow: 0 0 20px var(--blurple-glow); }
+        .icon-dev { background: var(--bg-input); border: 1px solid var(--red-main); box-shadow: 0 0 20px var(--red-glow); }
+        .support-info h3 { margin: 0 0 0.2rem 0; font-size: 1.3rem; text-transform: uppercase; letter-spacing: 1px; }
+        .support-discord h3 { color: #fff; }
+        .support-dev h3 { color: var(--red-main); }
+        .support-info p { margin: 0; color: var(--text-dim); font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; margin-bottom: 1rem; }
+        
+        .btn-link {
+            display: inline-block; text-decoration: none; padding: 0.5rem 1.2rem; border-radius: 4px;
+            font-weight: 700; text-transform: uppercase; letter-spacing: 1px; font-size: 0.9rem; transition: all 0.2s ease;
+        }
+        .btn-discord { background: rgba(88, 101, 242, 0.1); border: 1px solid var(--blurple); color: #fff; }
+        .btn-discord:hover { background: var(--blurple); box-shadow: 0 0 15px var(--blurple); }
+        .btn-dev { background: rgba(255, 30, 30, 0.1); border: 1px solid var(--red-dark); color: var(--red-main); }
+        .btn-dev:hover { background: var(--red-main); color: #000; box-shadow: 0 0 15px var(--red-main); }
 
         /* Scrollbar */
         ::-webkit-scrollbar { width: 8px; height: 8px; }
@@ -490,6 +284,7 @@
                 <button onclick="switchTool('wildcard')">AOB To Wildcards</button>
                 <button onclick="switchTool('offset')">Offset Calculator</button>
                 <button onclick="switchTool('bones')">Bones Finder</button>
+                <button onclick="switchTool('pixel')">Pixel Convert</button>
             </div>
         </div>
     </nav>
@@ -525,17 +320,11 @@
         <div id="tool-converter" class="tool-view active">
             <h1 class="section-title">AOB Converter</h1>
             <div class="panel">
-                <div class="panel-header">
-                    <h2>Hexadecimal</h2>
-                    <button class="action-btn" onclick="copyToClipboard('hexInput')">Copy</button>
-                </div>
+                <div class="panel-header"><h2>Hexadecimal</h2><button class="action-btn" onclick="copyToClipboard('hexInput')">Copy</button></div>
                 <textarea id="hexInput" placeholder="e.g. 00 FF 66 AA ?? 66" oninput="convert('hex')" onblur="formatActive('hex')"></textarea>
             </div>
             <div class="panel">
-                <div class="panel-header">
-                    <h2>C++ Bytes</h2>
-                    <button class="action-btn" onclick="copyToClipboard('bytesInput')">Copy</button>
-                </div>
+                <div class="panel-header"><h2>C++ Bytes</h2><button class="action-btn" onclick="copyToClipboard('bytesInput')">Copy</button></div>
                 <textarea id="bytesInput" placeholder="e.g. 0x00, 0xFF, 0x66, 0xAA, 0x??, 0x66" oninput="convert('bytes')" onblur="formatActive('bytes')"></textarea>
             </div>
         </div>
@@ -547,14 +336,9 @@
                 <div class="panel-header"><h2>Input Signatures (Multiple Lines)</h2></div>
                 <textarea id="mergeInput" class="merger-textarea" placeholder="Paste multiple AOBs here...&#10;FF FF FF FF 66 44 ?? 00 66&#10;FF FF FF FF 77 44 ?? 00 67"></textarea>
             </div>
-            <div class="merge-btn-container">
-                <button class="merge-btn" onclick="executeMerge()"><span>Merge AOBs</span></button>
-            </div>
+            <div class="merge-btn-container"><button class="merge-btn" onclick="executeMerge()"><span>Merge AOBs</span></button></div>
             <div class="panel">
-                <div class="panel-header">
-                    <h2>Merged Output</h2>
-                    <button class="action-btn" onclick="copyToClipboard('mergeOutput')">Copy</button>
-                </div>
+                <div class="panel-header"><h2>Merged Output</h2><button class="action-btn" onclick="copyToClipboard('mergeOutput')">Copy</button></div>
                 <textarea id="mergeOutput" placeholder="FF ?? FF FF ?? 44 ?? 00 ??" readonly></textarea>
             </div>
         </div>
@@ -572,10 +356,7 @@
                 <div class="stat-box"><div class="stat-value" id="stat-wild">0</div><div class="stat-label">Existing Wildcards</div></div>
             </div>
             <div class="panel">
-                <div class="panel-header">
-                    <h2>Wildcard Output</h2>
-                    <button class="action-btn" onclick="copyToClipboard('wildcardOutput')">Copy</button>
-                </div>
+                <div class="panel-header"><h2>Wildcard Output</h2><button class="action-btn" onclick="copyToClipboard('wildcardOutput')">Copy</button></div>
                 <textarea id="wildcardOutput" placeholder="?? ?? ?? ?? ?? ??" readonly></textarea>
             </div>
         </div>
@@ -588,22 +369,13 @@
                 <div class="calc-row">
                     <input type="text" id="calcInputA" placeholder="Base (e.g. 0x54 or 567)" oninput="calculateOffset()" />
                     <select id="calcOperator" onchange="calculateOffset()">
-                        <option value="+">+</option>
-                        <option value="-">-</option>
+                        <option value="+">+</option><option value="-">-</option>
                     </select>
                     <input type="text" id="calcInputB" placeholder="Offset (e.g. 0x45c or 567)" oninput="calculateOffset()" />
                 </div>
                 <div class="stats-grid calc-results">
-                    <div class="stat-box">
-                        <div class="stat-label">Result (Hexadecimal)</div>
-                        <div class="stat-value" id="calcResultHex">---</div>
-                        <button class="action-btn" onclick="copyDivText('calcResultHex')">Copy Hex</button>
-                    </div>
-                    <div class="stat-box">
-                        <div class="stat-label">Result (Decimal)</div>
-                        <div class="stat-value" id="calcResultDec">---</div>
-                        <button class="action-btn" onclick="copyDivText('calcResultDec')">Copy Dec</button>
-                    </div>
+                    <div class="stat-box"><div class="stat-label">Result (Hexadecimal)</div><div class="stat-value" id="calcResultHex">---</div><button class="action-btn" onclick="copyDivText('calcResultHex')">Copy Hex</button></div>
+                    <div class="stat-box"><div class="stat-label">Result (Decimal)</div><div class="stat-value" id="calcResultDec">---</div><button class="action-btn" onclick="copyDivText('calcResultDec')">Copy Dec</button></div>
                 </div>
             </div>
         </div>
@@ -612,36 +384,84 @@
         <div id="tool-bones" class="tool-view">
             <h1 class="section-title">Bones Finder</h1>
             <div class="panel">
-                <div class="panel-header">
-                    <h2>Enter Head Base Offset</h2>
-                </div>
-                <div class="calc-row">
-                    <input type="text" id="headOffsetInput" placeholder="e.g. 0x458 or 458" />
-                </div>
+                <div class="panel-header"><h2>Enter Head Base Offset</h2></div>
+                <div class="calc-row"><input type="text" id="headOffsetInput" placeholder="e.g. 0x458 or 458" /></div>
             </div>
-
-            <div class="merge-btn-container">
-                <button class="merge-btn" onclick="startBonesFinder()"><span>Extract Bones</span></button>
-            </div>
-
+            <div class="merge-btn-container"><button class="merge-btn" onclick="startBonesFinder()"><span>Extract Bones</span></button></div>
             <div class="panel">
-                <div class="panel-header">
-                    <h2>C# Static Class Output</h2>
-                    <button class="action-btn" onclick="copyToClipboard('bonesOutput')">Copy Class</button>
-                </div>
-                
-                <!-- Fake Loading Animation -->
+                <div class="panel-header"><h2>C# Static Class Output</h2><button class="action-btn" onclick="copyToClipboard('bonesOutput')">Copy Class</button></div>
                 <div id="bones-loader" class="cyber-loader">
                     <div class="scan-text">[>>] MEMORY DUMP IN PROGRESS...</div>
                     <div class="scan-bar-container"><div class="scan-bar"></div></div>
                 </div>
-
-                <!-- Output Area -->
                 <div id="bones-output-container" style="display: none;">
                     <textarea id="bonesOutput" class="bones-textarea" readonly placeholder="Waiting for head offset..."></textarea>
                 </div>
             </div>
         </div>
+
+        <!-- TOOL 6: PIXEL CONVERT (IMAGE RESIZER) -->
+        <div id="tool-pixel" class="tool-view">
+            <h1 class="section-title">Pixel Convert</h1>
+            
+            <!-- Upload Panel -->
+            <div class="panel">
+                <div class="panel-header">
+                    <h2>Upload Image</h2>
+                </div>
+                <div class="file-input-wrapper">
+                    <input type="file" id="imageInput" accept="image/*" class="file-input" onchange="handleImageUpload(event)" />
+                </div>
+                <div class="image-preview-container">
+                    <span id="previewPlaceholder" style="color: var(--text-dim); font-family: 'JetBrains Mono', monospace;">No Image Selected</span>
+                    <img id="imagePreview" src="" alt="Preview" style="display: none; max-width: 100%; max-height: 400px; object-fit: contain; border-radius: 4px;" />
+                </div>
+            </div>
+
+            <!-- Resize Controls Panel -->
+            <div class="panel">
+                <div class="panel-header">
+                    <h2>Resize Image</h2>
+                </div>
+                
+                <div class="calc-row">
+                    <div>
+                        <label>Width (px)</label>
+                        <input type="number" id="imgWidth" placeholder="e.g. 1024" oninput="handleDimensionChange('width')" />
+                    </div>
+                    <div>
+                        <label>Height (px)</label>
+                        <input type="number" id="imgHeight" placeholder="e.g. 1024" oninput="handleDimensionChange('height')" />
+                    </div>
+                </div>
+                
+                <div class="checkbox-row">
+                    <input type="checkbox" id="keepAspectRatio" checked onchange="handleAspectRatioToggle()" />
+                    <label for="keepAspectRatio">Fixed aspect ratio</label>
+                </div>
+
+                <div class="merge-btn-container" style="margin-top: 1.5rem;">
+                    <button class="merge-btn" onclick="executeImageResize()">
+                        <span>Resize</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Download Panel -->
+            <div class="panel" id="downloadPanel" style="display: none; text-align: center;">
+                <div class="panel-header" style="justify-content: center; border-bottom: none;">
+                    <h2 style="color: #a3be8c;">Image Successfully Resized!</h2>
+                </div>
+                <div class="merge-btn-container">
+                    <a id="downloadLink" class="merge-btn" download="resized_image.png">
+                        <span>Save Image</span>
+                    </a>
+                </div>
+                <!-- Hidden canvas for rendering the resized image -->
+                <canvas id="resizeCanvas" style="display:none;"></canvas>
+            </div>
+        </div>
+
     </main>
 
     <!-- Toast Notification -->
@@ -673,16 +493,18 @@
         function copyToClipboard(elementId) {
             const el = document.getElementById(elementId);
             if (!el.value) return; el.select(); el.setSelectionRange(0, 99999);
-            navigator.clipboard.writeText(el.value).then(() => showToast());
+            navigator.clipboard.writeText(el.value).then(() => showToast('Copied!'));
         }
         function copyDivText(elementId) {
             const el = document.getElementById(elementId);
-            if (el.innerText === '---') return; navigator.clipboard.writeText(el.innerText).then(() => showToast());
+            if (el.innerText === '---') return; navigator.clipboard.writeText(el.innerText).then(() => showToast('Copied!'));
         }
         let toastTimeout;
-        function showToast() {
-            const toast = document.getElementById('toast'); toast.classList.add('show');
-            clearTimeout(toastTimeout); toastTimeout = setTimeout(() => toast.classList.remove('show'), 2000);
+        function showToast(message = 'Copied!') {
+            const toast = document.getElementById('toast');
+            toast.innerText = message;
+            toast.classList.add('show');
+            clearTimeout(toastTimeout); toastTimeout = setTimeout(() => toast.classList.remove('show'), 2500);
         }
         function normalizeAOB(input) { return input.replace(/0x/gi, '').replace(/[^0-9A-Fa-f\?]/g, '').toUpperCase(); }
         function parseNumericInput(val) {
@@ -745,7 +567,6 @@
             let valB = document.getElementById('calcInputB').value.trim();
             const op = document.getElementById('calcOperator').value;
 
-            // Handle decimal vs hex for offset calc
             const parseCalcInput = (v) => {
                 if (v === '') return null;
                 try { return v.toLowerCase().startsWith('0x') ? BigInt(v) : BigInt(v); } catch(e){ return null; }
@@ -763,71 +584,126 @@
 
         // --- BONES FINDER LOGIC ---
         const boneDistances = {
-            Spine: 0x8,
-            Hip: 0x4,
-            Root: 0x14,
-            LeftAnkle: 0x1C,
-            RightAnkle: 0x20,
-            LeftFoot: 0x24,
-            RightFoot: 0x28,
-            LeftShoulder: 0x34,
-            RightShoulder: 0x38,
-            RightHand: 0x3C,
-            LeftHand: 0x40,
-            RightElbow: 0x44,
-            LeftElbow: 0x48,
-            HeadCollider: 0x4C
+            Spine: 0x8, Hip: 0x4, Root: 0x14, LeftAnkle: 0x1C, RightAnkle: 0x20, LeftFoot: 0x24, RightFoot: 0x28,
+            LeftShoulder: 0x34, RightShoulder: 0x38, RightHand: 0x3C, LeftHand: 0x40, RightElbow: 0x44, LeftElbow: 0x48, HeadCollider: 0x4C
         };
 
         function startBonesFinder() {
             const inputVal = document.getElementById('headOffsetInput').value.trim();
-            const headBase = parseNumericInput(inputVal); // Always treats as Hex internally
+            const headBase = parseNumericInput(inputVal); 
 
-            if (headBase === null) {
-                alert("Please enter a valid Hexadecimal head offset (e.g. 0x458).");
-                return;
-            }
+            if (headBase === null) { alert("Please enter a valid Hexadecimal head offset (e.g. 0x458)."); return; }
 
-            // UI Transitions: Show Fake Loader
             document.getElementById('bones-output-container').style.display = 'none';
             document.getElementById('bones-loader').style.display = 'flex';
 
             const scanText = document.querySelector('.scan-text');
-            const messages = [
-                "[>>] MEMORY DUMP IN PROGRESS...",
-                "[>>] EXTRACTING POINTERS...",
-                "[>>] ALIGNING STRUCT OFFSETS...",
-                "[>>] CLASS GENERATION COMPLETE"
-            ];
-            
+            const messages = ["[>>] MEMORY DUMP IN PROGRESS...", "[>>] EXTRACTING POINTERS...", "[>>] ALIGNING STRUCT OFFSETS...", "[>>] CLASS GENERATION COMPLETE"];
             let msgIndex = 0;
             const textInterval = setInterval(() => {
-                msgIndex++;
-                if (msgIndex < messages.length) scanText.innerText = messages[msgIndex];
+                msgIndex++; if (msgIndex < messages.length) scanText.innerText = messages[msgIndex];
             }, 600);
 
-            // Fake processing delay (2 seconds)
             setTimeout(() => {
-                clearInterval(textInterval);
-                scanText.innerText = "[>>] MEMORY DUMP IN PROGRESS..."; // Reset for next time
-
-                // Generate C# Code
-                let code = `internal static class Bones\n{\n`;
-                code += `    internal static uint Head = 0x${headBase.toString(16).toLowerCase()};\n`;
-                
+                clearInterval(textInterval); scanText.innerText = "[>>] MEMORY DUMP IN PROGRESS..."; 
+                let code = `internal static class Bones\n{\n    internal static uint Head = 0x${headBase.toString(16).toLowerCase()};\n`;
                 for (const [bone, distance] of Object.entries(boneDistances)) {
                     let calcOffset = headBase + BigInt(distance);
                     code += `    internal static uint ${bone} = 0x${calcOffset.toString(16).toLowerCase()};\n`;
                 }
                 code += `}`;
-
                 document.getElementById('bonesOutput').value = code;
-
-                // UI Transitions: Show Result
                 document.getElementById('bones-loader').style.display = 'none';
                 document.getElementById('bones-output-container').style.display = 'block';
+            }, 2400); 
+        }
 
-            }, 2400); // 2.4 seconds delay for maximum cool factor
+        // --- PIXEL CONVERT LOGIC ---
+        let currentUploadedImage = null;
+        let originalAspectRatio = 1;
+        let originalFileName = "resized_image";
+
+        function handleImageUpload(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            // Save name without extension
+            originalFileName = file.name.split('.').slice(0, -1).join('.') || "resized_image";
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                currentUploadedImage = new Image();
+                currentUploadedImage.onload = function() {
+                    const preview = document.getElementById('imagePreview');
+                    preview.src = currentUploadedImage.src;
+                    preview.style.display = 'block';
+                    document.getElementById('previewPlaceholder').style.display = 'none';
+                    
+                    document.getElementById('imgWidth').value = currentUploadedImage.width;
+                    document.getElementById('imgHeight').value = currentUploadedImage.height;
+                    
+                    originalAspectRatio = currentUploadedImage.width / currentUploadedImage.height;
+                    document.getElementById('downloadPanel').style.display = 'none';
+                }
+                currentUploadedImage.src = e.target.result;
+            }
+            reader.readAsDataURL(file);
+        }
+
+        function handleDimensionChange(source) {
+            if (!currentUploadedImage || !document.getElementById('keepAspectRatio').checked) return;
+            
+            const widthInput = document.getElementById('imgWidth');
+            const heightInput = document.getElementById('imgHeight');
+            
+            if (source === 'width') {
+                const w = parseInt(widthInput.value) || 0;
+                heightInput.value = Math.round(w / originalAspectRatio);
+            } else if (source === 'height') {
+                const h = parseInt(heightInput.value) || 0;
+                widthInput.value = Math.round(h * originalAspectRatio);
+            }
+        }
+
+        function handleAspectRatioToggle() {
+            if (document.getElementById('keepAspectRatio').checked && currentUploadedImage) {
+                const widthInput = document.getElementById('imgWidth');
+                const w = parseInt(widthInput.value) || 0;
+                document.getElementById('imgHeight').value = Math.round(w / originalAspectRatio);
+            }
+        }
+
+        function executeImageResize() {
+            if (!currentUploadedImage) {
+                alert('Please upload an image first.');
+                return;
+            }
+            
+            const newWidth = parseInt(document.getElementById('imgWidth').value);
+            const newHeight = parseInt(document.getElementById('imgHeight').value);
+            
+            if (!newWidth || !newHeight || newWidth <= 0 || newHeight <= 0) {
+                alert('Please enter valid dimensions above 0.');
+                return;
+            }
+
+            const canvas = document.getElementById('resizeCanvas');
+            canvas.width = newWidth;
+            canvas.height = newHeight;
+            const ctx = canvas.getContext('2d');
+            
+            // Draw resized image
+            ctx.drawImage(currentUploadedImage, 0, 0, newWidth, newHeight);
+            
+            // Generate Data URL
+            const dataUrl = canvas.toDataURL('image/png');
+            
+            const downloadLink = document.getElementById('downloadLink');
+            downloadLink.href = dataUrl;
+            downloadLink.download = `${originalFileName}_${newWidth}x${newHeight}.png`;
+            
+            document.getElementById('downloadPanel').style.display = 'block';
+            showToast('Image Ready for Download!');
         }
     </script>
 </body>
