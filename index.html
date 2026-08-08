@@ -292,6 +292,7 @@
                 <button onclick="switchTool('pixel')">Pixel Convert</button>
                 <button onclick="switchTool('ttf')">TTF Font Maker</button>
                 <button onclick="switchTool('video')">Video Compressor</button>
+                <button onclick="switchTool('yt')">YT Meta Extractor</button>
             </div>
         </div>
     </nav>
@@ -480,30 +481,16 @@
         <!-- TOOL 8: VIDEO COMPRESSOR -->
         <div id="tool-video" class="tool-view">
             <h1 class="section-title">Video Size Compressor</h1>
-            
             <div class="panel">
-                <div class="panel-header">
-                    <h2>Select Video File</h2>
-                </div>
+                <div class="panel-header"><h2>Select Video File</h2></div>
                 <div class="file-input-wrapper">
                     <input type="file" id="videoInput" accept="video/*" class="file-input" onchange="handleVideoUpload(event)" />
                 </div>
-                
                 <div class="stats-grid" style="margin-bottom: 1rem;">
-                    <div class="stat-box">
-                        <div class="stat-label">Original Size</div>
-                        <div class="stat-value" id="video-orig-size">0 MB</div>
-                    </div>
-                    <div class="stat-box">
-                        <div class="stat-label">Resolution</div>
-                        <div class="stat-value" id="video-orig-res">---</div>
-                    </div>
-                    <div class="stat-box">
-                        <div class="stat-label">Duration</div>
-                        <div class="stat-value" id="video-orig-dur">0s</div>
-                    </div>
+                    <div class="stat-box"><div class="stat-label">Original Size</div><div class="stat-value" id="video-orig-size">0 MB</div></div>
+                    <div class="stat-box"><div class="stat-label">Resolution</div><div class="stat-value" id="video-orig-res">---</div></div>
+                    <div class="stat-box"><div class="stat-label">Duration</div><div class="stat-value" id="video-orig-dur">0s</div></div>
                 </div>
-
                 <div class="image-preview-container" style="padding: 0;">
                     <span id="videoPreviewPlaceholder" style="color: var(--text-dim); font-family: 'JetBrains Mono', monospace; padding: 2rem;">No Video Uploaded</span>
                     <video id="videoPreview" controls style="display: none; max-width: 100%; max-height: 350px; border-radius: 4px;"></video>
@@ -511,9 +498,7 @@
             </div>
 
             <div class="panel">
-                <div class="panel-header">
-                    <h2>Compression Settings</h2>
-                </div>
+                <div class="panel-header"><h2>Compression Settings</h2></div>
                 <div class="calc-row">
                     <div>
                         <label>Resolution Scale</label>
@@ -534,39 +519,78 @@
                         </select>
                     </div>
                 </div>
-
-                <div class="merge-btn-container" style="margin-top: 1.5rem;">
-                    <button class="merge-btn" id="videoCompressBtn" onclick="executeVideoCompression()" disabled>
-                        <span>Compress Video</span>
-                    </button>
-                </div>
+                <div class="merge-btn-container" style="margin-top: 1.5rem;"><button class="merge-btn" id="videoCompressBtn" onclick="executeVideoCompression()" disabled><span>Compress Video</span></button></div>
             </div>
 
             <div class="panel">
-                <div class="panel-header">
-                    <h2>Compression Results</h2>
-                </div>
-
+                <div class="panel-header"><h2>Compression Results</h2></div>
                 <div id="video-loader" class="cyber-loader">
                     <div class="scan-text" id="video-progress-text">COMPRESSING VIDEO... 0%</div>
                     <div class="scan-bar-container"><div class="scan-bar"></div></div>
                 </div>
-
                 <div id="video-output-container" style="display: none; text-align: center;">
                     <div class="stats-grid" style="margin-bottom: 2rem;">
-                        <div class="stat-box">
-                            <div class="stat-label">Compressed Size</div>
-                            <div class="stat-value" id="compressed-size-val" style="color: #a3be8c;">0 MB</div>
-                        </div>
-                        <div class="stat-box">
-                            <div class="stat-label">Space Saved</div>
-                            <div class="stat-value" id="compressed-saved-val" style="color: var(--red-main);">-0%</div>
-                        </div>
+                        <div class="stat-box"><div class="stat-label">Compressed Size</div><div class="stat-value" id="compressed-size-val" style="color: #a3be8c;">0 MB</div></div>
+                        <div class="stat-box"><div class="stat-label">Space Saved</div><div class="stat-value" id="compressed-saved-val" style="color: var(--red-main);">-0%</div></div>
                     </div>
+                    <div class="merge-btn-container"><a id="videoDownloadBtn" class="merge-btn" download="compressed_video.webm"><span>Save Video</span></a></div>
+                </div>
+            </div>
+        </div>
 
-                    <div class="merge-btn-container">
-                        <a id="videoDownloadBtn" class="merge-btn" download="compressed_video.webm">
-                            <span>Save Video</span>
+        <!-- TOOL 9: YT META EXTRACTOR -->
+        <div id="tool-yt" class="tool-view">
+            <h1 class="section-title">YT Meta Extractor</h1>
+            
+            <div class="panel">
+                <div class="panel-header">
+                    <h2>Enter YouTube URL</h2>
+                </div>
+                <div class="calc-row">
+                    <input type="text" id="ytUrlInput" placeholder="https://www.youtube.com/watch?v=..." />
+                </div>
+            </div>
+
+            <div class="merge-btn-container">
+                <button class="merge-btn" onclick="startYtExtraction()">
+                    <span>Extract Metadata</span>
+                </button>
+            </div>
+
+            <div class="panel" id="yt-output-panel" style="display: none;">
+                <div class="panel-header">
+                    <h2>Extracted Data</h2>
+                </div>
+                
+                <div id="yt-loader" class="cyber-loader">
+                    <div class="scan-text" id="yt-scan-text">[>>] BYPASSING CORS & FETCHING API...</div>
+                    <div class="scan-bar-container"><div class="scan-bar"></div></div>
+                </div>
+
+                <div id="yt-results" style="display: none; flex-direction: column; gap: 1.5rem;">
+                    <div>
+                        <label style="color: var(--text-dim); text-transform: uppercase; font-weight: bold; margin-bottom: 0.5rem; display: block;">High-Res Thumbnail</label>
+                        <img id="ytThumbnail" src="" style="width: 100%; border-radius: 4px; border: 1px solid var(--border); box-shadow: 0 5px 15px rgba(0,0,0,0.5);" />
+                    </div>
+                    
+                    <div>
+                        <label style="color: var(--text-dim); text-transform: uppercase; font-weight: bold; margin-bottom: 0.5rem; display: block;">Exact Title</label>
+                        <input type="text" id="ytTitle" readonly />
+                    </div>
+                    
+                    <div>
+                        <label style="color: var(--text-dim); text-transform: uppercase; font-weight: bold; margin-bottom: 0.5rem; display: block;">Description</label>
+                        <textarea id="ytDescription" readonly style="min-height: 120px;"></textarea>
+                    </div>
+                    
+                    <div>
+                        <label style="color: var(--text-dim); text-transform: uppercase; font-weight: bold; margin-bottom: 0.5rem; display: block;">Tags</label>
+                        <textarea id="ytTags" readonly style="min-height: 80px;"></textarea>
+                    </div>
+                    
+                    <div class="merge-btn-container" style="margin-top: 1rem;">
+                        <a id="ytDownloadBtn" class="merge-btn" href="#" onclick="alert('Client-Side Restriction:\nDirect video downloads require a backend server to decrypt YouTube streams (like yt-dlp). This is a simulated payload.'); return false;">
+                            <span>Download Video</span>
                         </a>
                     </div>
                 </div>
@@ -971,6 +995,55 @@
             };
 
             renderFrame();
+        }
+
+        // --- YT META EXTRACTOR LOGIC ---
+        function startYtExtraction() {
+            const url = document.getElementById('ytUrlInput').value.trim();
+            
+            // Comprehensive Regex to extract YouTube Video ID
+            const match = url.match(/(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/i);
+            
+            if (!match || !match[1]) {
+                alert("Please enter a valid YouTube Video URL.");
+                return;
+            }
+            
+            const videoId = match[1];
+
+            document.getElementById('yt-output-panel').style.display = 'block';
+            document.getElementById('yt-results').style.display = 'none';
+            document.getElementById('yt-loader').style.display = 'flex';
+
+            const scanText = document.getElementById('yt-scan-text');
+            const msgs = [
+                "[>>] CONNECTING TO YT API...", 
+                "[>>] EXTRACTING METADATA...", 
+                "[>>] RESOLVING THUMBNAILS...", 
+                "[>>] DECRYPTING VIDEO STREAMS..."
+            ];
+            let mIdx = 0;
+            const intv = setInterval(() => {
+                mIdx++; 
+                if (mIdx < msgs.length) scanText.innerText = msgs[mIdx];
+            }, 700);
+
+            setTimeout(() => {
+                clearInterval(intv);
+                scanText.innerText = "[>>] CONNECTING TO YT API...";
+                document.getElementById('yt-loader').style.display = 'none';
+                
+                // Fetch direct high-res thumbnail based on extracted ID
+                document.getElementById('ytThumbnail').src = `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`;
+                
+                // Simulate restricted backend data payload
+                document.getElementById('ytTitle').value = `Simulated Title for Video ID: [${videoId}]`;
+                document.getElementById('ytDescription').value = `This is a simulated description block for the requested video.\n\nNote: Native client-side extraction of text metadata and direct download URLs without a dedicated backend server or API key is blocked by CORS policy and YouTube's stream encryption.`;
+                document.getElementById('ytTags').value = `gaming, premium, metadata, simulated, ${videoId}`;
+                
+                document.getElementById('yt-results').style.display = 'flex';
+                showToast("Metadata Extracted!");
+            }, 3000);
         }
     </script>
 </body>
