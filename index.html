@@ -98,7 +98,7 @@
             background: var(--bg-panel);
             border: 1px solid var(--red-dark);
             border-radius: 4px;
-            width: 200px;
+            width: 220px;
             display: none;
             flex-direction: column;
             box-shadow: 0 10px 30px rgba(0,0,0,0.8), 0 0 20px var(--red-glow);
@@ -118,7 +118,7 @@
             padding: 1rem;
             text-align: left;
             font-family: 'Rajdhani', sans-serif;
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.2s ease;
@@ -227,6 +227,48 @@
 
         .panel:focus-within .panel-header h2 {
             color: var(--red-main);
+        }
+
+        /* Stats Grid for Wildcard Tool */
+        .stats-grid {
+            display: flex;
+            gap: 1.5rem;
+            width: 100%;
+        }
+
+        .stat-box {
+            flex: 1;
+            background: var(--bg-panel);
+            border: 1px solid var(--border);
+            border-top: 3px solid var(--red-main);
+            border-radius: 4px;
+            padding: 1.5rem 1rem;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .stat-box:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px var(--red-glow);
+            border-color: var(--red-dark);
+        }
+
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--text-main);
+            font-family: 'JetBrains Mono', monospace;
+            margin-bottom: 0.2rem;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+        }
+
+        .stat-label {
+            font-size: 0.95rem;
+            color: var(--text-dim);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
         }
 
         /* Buttons */
@@ -344,6 +386,10 @@
         }
 
         /* Responsive */
+        @media (max-width: 768px) {
+            .stats-grid { flex-direction: column; gap: 1rem; }
+        }
+
         @media (max-width: 600px) {
             .logo { font-size: 1.5rem; }
             .section-title { font-size: 2rem; }
@@ -362,6 +408,7 @@
             <div class="dropdown" id="dropdownMenu">
                 <button onclick="switchTool('converter')">AOB Converter</button>
                 <button onclick="switchTool('merger')">AOB Merger</button>
+                <button onclick="switchTool('wildcard')">AOB To Wildcards</button>
             </div>
         </div>
     </nav>
@@ -371,7 +418,6 @@
         <div id="tool-converter" class="tool-view active">
             <h1 class="section-title">AOB Converter</h1>
             
-            <!-- Hex Panel -->
             <div class="panel">
                 <div class="panel-header">
                     <h2>Hexadecimal</h2>
@@ -383,7 +429,6 @@
                           onblur="formatActive('hex')"></textarea>
             </div>
 
-            <!-- Bytes Panel -->
             <div class="panel">
                 <div class="panel-header">
                     <h2>C++ Bytes</h2>
@@ -400,7 +445,6 @@
         <div id="tool-merger" class="tool-view">
             <h1 class="section-title">AOB Merger</h1>
             
-            <!-- Input Panel -->
             <div class="panel">
                 <div class="panel-header">
                     <h2>Input Signatures (Multiple Lines)</h2>
@@ -409,20 +453,56 @@
                           placeholder="Paste multiple AOBs here...&#10;FF FF FF FF 66 44 ?? 00 66&#10;FF FF FF FF 77 44 ?? 00 67&#10;FF 55 FF FF 66 44 ?? 00 ??"></textarea>
             </div>
 
-            <!-- Merge Action Button -->
             <div class="merge-btn-container">
                 <button class="merge-btn" onclick="executeMerge()">
                     <span>Merge AOBs</span>
                 </button>
             </div>
 
-            <!-- Output Panel -->
             <div class="panel">
                 <div class="panel-header">
                     <h2>Merged Output</h2>
                     <button class="action-btn" onclick="copyToClipboard('mergeOutput')">Copy</button>
                 </div>
                 <textarea id="mergeOutput" placeholder="FF ?? FF FF ?? 44 ?? 00 ??" readonly></textarea>
+            </div>
+        </div>
+
+        <!-- TOOL 3: WILDCARDS -->
+        <div id="tool-wildcard" class="tool-view">
+            <h1 class="section-title">AOB To Wildcards</h1>
+            
+            <div class="panel">
+                <div class="panel-header">
+                    <h2>Input AOB</h2>
+                </div>
+                <textarea id="wildcardInput" 
+                          placeholder="e.g. FF FF FF ?? 00 11" 
+                          oninput="generateWildcards()"></textarea>
+            </div>
+
+            <!-- Stats Grid for Input Details -->
+            <div class="stats-grid">
+                <div class="stat-box">
+                    <div class="stat-value" id="stat-total">0</div>
+                    <div class="stat-label">Total Bytes</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-value" id="stat-hex">0</div>
+                    <div class="stat-label">Valid Hex Bytes</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-value" id="stat-wild">0</div>
+                    <div class="stat-label">Existing Wildcards</div>
+                </div>
+            </div>
+
+            <div class="panel">
+                <div class="panel-header">
+                    <h2>Wildcard Output</h2>
+                    <button class="action-btn" onclick="copyToClipboard('wildcardOutput')">Copy</button>
+                </div>
+                <textarea id="wildcardOutput" placeholder="?? ?? ?? ?? ?? ??" readonly></textarea>
             </div>
         </div>
     </main>
@@ -447,20 +527,41 @@
         });
 
         function switchTool(toolName) {
-            document.getElementById('tool-converter').classList.remove('active');
-            document.getElementById('tool-merger').classList.remove('active');
-            
+            document.querySelectorAll('.tool-view').forEach(el => el.classList.remove('active'));
             document.getElementById('tool-' + toolName).classList.add('active');
             document.getElementById('dropdownMenu').classList.remove('active');
         }
 
-        // --- CONVERTER LOGIC ---
+        // --- SHARED UTILS ---
         function normalizeAOB(input) {
             let cleaned = input.replace(/0x/gi, '');
             cleaned = cleaned.replace(/[^0-9A-Fa-f\?]/g, '');
             return cleaned.toUpperCase();
         }
 
+        function copyToClipboard(elementId) {
+            const el = document.getElementById(elementId);
+            if (!el.value) return;
+
+            el.select();
+            el.setSelectionRange(0, 99999);
+            navigator.clipboard.writeText(el.value).then(() => {
+                showToast();
+            });
+        }
+
+        let toastTimeout;
+        function showToast() {
+            const toast = document.getElementById('toast');
+            toast.classList.add('show');
+            
+            clearTimeout(toastTimeout);
+            toastTimeout = setTimeout(() => {
+                toast.classList.remove('show');
+            }, 2000);
+        }
+
+        // --- CONVERTER LOGIC ---
         function toHex(normalized) {
             if (!normalized) return '';
             const pairs = normalized.match(/.{1,2}/g) || [];
@@ -509,7 +610,6 @@
         // --- MERGER LOGIC ---
         function executeMerge() {
             const inputText = document.getElementById('mergeInput').value;
-            // Split into lines, trim spaces, and ignore empty lines
             const lines = inputText.split('\n').map(l => l.trim()).filter(l => l.length > 0);
             
             if (lines.length === 0) {
@@ -517,13 +617,11 @@
                 return;
             }
 
-            // Parse lines into arrays of bytes
             const parsedLines = lines.map(line => {
                 const normalized = normalizeAOB(line);
                 return normalized.match(/.{1,2}/g) || [];
             });
 
-            // Find the maximum length among all provided AOBs
             let maxLength = 0;
             parsedLines.forEach(arr => {
                 if (arr.length > maxLength) maxLength = arr.length;
@@ -531,7 +629,6 @@
 
             let mergedAOB = [];
 
-            // Compare bytes column by column
             for (let i = 0; i < maxLength; i++) {
                 let currentByte = null;
                 let isWildcard = false;
@@ -539,20 +636,18 @@
                 for (let j = 0; j < parsedLines.length; j++) {
                     let byte = parsedLines[j][i];
                     
-                    // Handle single '?' or standard '??'
                     if (byte === '?') byte = '??';
                     if (byte && byte.length === 1 && byte !== '?') byte = '0' + byte;
 
-                    // If a line is shorter, or byte is wildcard, mark position as wildcard
                     if (!byte || byte === '??') {
                         isWildcard = true;
                         break;
                     }
 
                     if (currentByte === null) {
-                        currentByte = byte; // First byte found for this column
+                        currentByte = byte;
                     } else if (currentByte !== byte) {
-                        isWildcard = true;  // Mismatch found
+                        isWildcard = true;
                         break;
                     }
                 }
@@ -563,27 +658,36 @@
             document.getElementById('mergeOutput').value = mergedAOB.join(' ');
         }
 
-        // --- UTILS ---
-        function copyToClipboard(elementId) {
-            const el = document.getElementById(elementId);
-            if (!el.value) return;
-
-            el.select();
-            el.setSelectionRange(0, 99999);
-            navigator.clipboard.writeText(el.value).then(() => {
-                showToast();
-            });
-        }
-
-        let toastTimeout;
-        function showToast() {
-            const toast = document.getElementById('toast');
-            toast.classList.add('show');
+        // --- WILDCARD LOGIC ---
+        function generateWildcards() {
+            const input = document.getElementById('wildcardInput').value;
+            const normalized = normalizeAOB(input);
+            const pairs = normalized.match(/.{1,2}/g) || [];
             
-            clearTimeout(toastTimeout);
-            toastTimeout = setTimeout(() => {
-                toast.classList.remove('show');
-            }, 2000);
+            let total = pairs.length;
+            let wildcardsCount = 0;
+            let hexCount = 0;
+
+            pairs.forEach(p => {
+                if (p === '?' || p === '??') {
+                    wildcardsCount++;
+                } else {
+                    hexCount++;
+                }
+            });
+
+            // Update stats
+            document.getElementById('stat-total').innerText = total;
+            document.getElementById('stat-hex').innerText = hexCount;
+            document.getElementById('stat-wild').innerText = wildcardsCount;
+
+            // Generate output
+            if (total === 0) {
+                document.getElementById('wildcardOutput').value = '';
+            } else {
+                const outputArr = new Array(total).fill('??');
+                document.getElementById('wildcardOutput').value = outputArr.join(' ');
+            }
         }
     </script>
 </body>
