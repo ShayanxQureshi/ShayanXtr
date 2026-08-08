@@ -128,9 +128,7 @@
             letter-spacing: 1px;
         }
 
-        .dropdown button:last-child {
-            border-bottom: none;
-        }
+        .dropdown button:last-child { border-bottom: none; }
 
         .dropdown button:hover {
             background: rgba(255, 30, 30, 0.1);
@@ -208,9 +206,7 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.8), 0 0 15px var(--red-glow);
         }
 
-        .panel:focus-within::before {
-            opacity: 1;
-        }
+        .panel:focus-within::before { opacity: 1; }
 
         .panel-header {
             display: flex;
@@ -282,10 +278,7 @@
             margin-bottom: 1.5rem;
         }
 
-        .calc-row input {
-            flex: 1;
-            min-height: 50px;
-        }
+        .calc-row input { flex: 1; min-height: 50px; }
 
         .calc-row select {
             background: var(--bg-input);
@@ -302,9 +295,52 @@
             box-shadow: 0 0 10px rgba(0,0,0,0.5);
         }
 
-        .calc-results .stat-value {
-            font-size: 2rem;
-            margin-bottom: 1rem;
+        /* Loading / Scanning Animation (Bones Finder) */
+        .cyber-loader {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 3rem 0;
+            gap: 1rem;
+        }
+
+        .scan-text {
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--red-main);
+            font-size: 1.2rem;
+            letter-spacing: 2px;
+            text-shadow: 0 0 10px var(--red-main);
+            animation: pulseText 1s infinite alternate;
+        }
+
+        .scan-bar-container {
+            width: 80%;
+            height: 4px;
+            background: var(--border);
+            border-radius: 2px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 0 10px rgba(0,0,0,0.8);
+        }
+
+        .scan-bar {
+            position: absolute;
+            top: 0; left: 0; height: 100%;
+            width: 30%;
+            background: var(--red-main);
+            box-shadow: 0 0 15px var(--red-main);
+            animation: scanAnim 1.5s ease-in-out infinite alternate;
+        }
+
+        @keyframes scanAnim {
+            0% { left: -30%; }
+            100% { left: 100%; }
+        }
+
+        @keyframes pulseText {
+            0% { opacity: 0.6; }
+            100% { opacity: 1; text-shadow: 0 0 20px var(--red-main); }
         }
 
         /* Support & Dev Banner */
@@ -336,14 +372,8 @@
             min-width: 300px;
         }
 
-        .support-discord {
-            border-right: 1px solid var(--border);
-            background: linear-gradient(135deg, rgba(88, 101, 242, 0.05) 0%, transparent 100%);
-        }
-
-        .support-dev {
-            background: linear-gradient(135deg, rgba(255, 30, 30, 0.05) 0%, transparent 100%);
-        }
+        .support-discord { border-right: 1px solid var(--border); background: linear-gradient(135deg, rgba(88, 101, 242, 0.05) 0%, transparent 100%); }
+        .support-dev { background: linear-gradient(135deg, rgba(255, 30, 30, 0.05) 0%, transparent 100%); }
 
         .support-icon {
             width: 50px;
@@ -355,34 +385,14 @@
             flex-shrink: 0;
         }
 
-        .icon-discord {
-            background: var(--blurple);
-            box-shadow: 0 0 20px var(--blurple-glow);
-        }
+        .icon-discord { background: var(--blurple); box-shadow: 0 0 20px var(--blurple-glow); }
+        .icon-dev { background: var(--bg-input); border: 1px solid var(--red-main); box-shadow: 0 0 20px var(--red-glow); }
 
-        .icon-dev {
-            background: var(--bg-input);
-            border: 1px solid var(--red-main);
-            box-shadow: 0 0 20px var(--red-glow);
-        }
-
-        .support-info h3 {
-            margin: 0 0 0.2rem 0;
-            font-size: 1.3rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
+        .support-info h3 { margin: 0 0 0.2rem 0; font-size: 1.3rem; text-transform: uppercase; letter-spacing: 1px; }
         .support-discord h3 { color: #fff; }
         .support-dev h3 { color: var(--red-main); }
 
-        .support-info p {
-            margin: 0;
-            color: var(--text-dim);
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.85rem;
-            margin-bottom: 1rem;
-        }
+        .support-info p { margin: 0; color: var(--text-dim); font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; margin-bottom: 1rem; }
 
         .btn-link {
             display: inline-block;
@@ -396,28 +406,10 @@
             transition: all 0.2s ease;
         }
 
-        .btn-discord {
-            background: rgba(88, 101, 242, 0.1);
-            border: 1px solid var(--blurple);
-            color: #fff;
-        }
-
-        .btn-discord:hover {
-            background: var(--blurple);
-            box-shadow: 0 0 15px var(--blurple);
-        }
-
-        .btn-dev {
-            background: rgba(255, 30, 30, 0.1);
-            border: 1px solid var(--red-dark);
-            color: var(--red-main);
-        }
-
-        .btn-dev:hover {
-            background: var(--red-main);
-            color: #000;
-            box-shadow: 0 0 15px var(--red-main);
-        }
+        .btn-discord { background: rgba(88, 101, 242, 0.1); border: 1px solid var(--blurple); color: #fff; }
+        .btn-discord:hover { background: var(--blurple); box-shadow: 0 0 15px var(--blurple); }
+        .btn-dev { background: rgba(255, 30, 30, 0.1); border: 1px solid var(--red-dark); color: var(--red-main); }
+        .btn-dev:hover { background: var(--red-main); color: #000; box-shadow: 0 0 15px var(--red-main); }
 
         /* Buttons */
         .action-btn {
@@ -434,60 +426,30 @@
             letter-spacing: 1px;
             transition: all 0.2s ease;
         }
+        .action-btn:hover { background: var(--red-main); color: var(--bg-base); box-shadow: 0 0 15px var(--red-main); }
 
-        .action-btn:hover {
-            background: var(--red-main);
-            color: var(--bg-base);
-            box-shadow: 0 0 15px var(--red-main);
-        }
-
-        .merge-btn-container {
-            display: flex;
-            justify-content: center;
-            margin: -0.5rem 0;
-            z-index: 10;
-        }
-
+        .merge-btn-container { display: flex; justify-content: center; margin: -0.5rem 0; z-index: 10; }
         .merge-btn {
-            background: var(--red-main);
-            color: #000;
-            font-size: 1.5rem;
-            padding: 1rem 3rem;
-            border: none;
-            border-radius: 4px;
-            font-family: 'Rajdhani', sans-serif;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 3px;
-            cursor: pointer;
-            box-shadow: 0 0 20px rgba(255, 30, 30, 0.4);
-            transition: all 0.2s ease;
-            transform: skewX(-10deg);
+            background: var(--red-main); color: #000; font-size: 1.5rem; padding: 1rem 3rem;
+            border: none; border-radius: 4px; font-family: 'Rajdhani', sans-serif; font-weight: 700;
+            text-transform: uppercase; letter-spacing: 3px; cursor: pointer;
+            box-shadow: 0 0 20px rgba(255, 30, 30, 0.4); transition: all 0.2s ease; transform: skewX(-10deg);
         }
-
         .merge-btn span { display: inline-block; transform: skewX(10deg); }
         .merge-btn:hover { box-shadow: 0 0 30px var(--red-main); transform: skewX(-10deg) scale(1.05); }
 
         /* Inputs */
         textarea, input[type="text"] {
-            width: 100%;
-            background: var(--bg-input);
-            border: 1px solid var(--bg-base);
-            color: var(--text-main);
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 1.1rem;
-            outline: none;
-            line-height: 1.6;
-            box-sizing: border-box;
-            padding: 1rem;
-            border-radius: 4px;
+            width: 100%; background: var(--bg-input); border: 1px solid var(--bg-base);
+            color: var(--text-main); font-family: 'JetBrains Mono', monospace; font-size: 1.1rem;
+            outline: none; line-height: 1.6; box-sizing: border-box; padding: 1rem; border-radius: 4px;
             transition: border-color 0.3s ease;
         }
-
         input[type="text"] { height: 55px; }
         input[type="text"]:focus, textarea:focus { border-color: var(--red-dark); }
         textarea { resize: vertical; min-height: 120px; }
         .merger-textarea { min-height: 200px; white-space: pre; }
+        .bones-textarea { min-height: 380px; white-space: pre; color: #a3be8c; /* hacker green tint for class */ }
         textarea::placeholder, input::placeholder { color: #333644; }
 
         /* Scrollbar */
@@ -498,23 +460,11 @@
 
         /* Toast */
         .toast {
-            position: fixed;
-            bottom: 2rem;
-            right: 2rem;
-            background: var(--red-main);
-            color: #000;
-            padding: 1rem 2rem;
-            border-radius: 4px;
-            font-weight: 700;
-            font-size: 1.2rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            opacity: 0;
-            transform: translateX(50px);
-            transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-            pointer-events: none;
-            box-shadow: 0 0 20px var(--red-glow);
-            z-index: 1000;
+            position: fixed; bottom: 2rem; right: 2rem; background: var(--red-main); color: #000;
+            padding: 1rem 2rem; border-radius: 4px; font-weight: 700; font-size: 1.2rem;
+            text-transform: uppercase; letter-spacing: 1px; opacity: 0; transform: translateX(50px);
+            transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55); pointer-events: none;
+            box-shadow: 0 0 20px var(--red-glow); z-index: 1000;
         }
         .toast.show { opacity: 1; transform: translateX(0); }
 
@@ -539,11 +489,12 @@
                 <button onclick="switchTool('merger')">AOB Merger</button>
                 <button onclick="switchTool('wildcard')">AOB To Wildcards</button>
                 <button onclick="switchTool('offset')">Offset Calculator</button>
+                <button onclick="switchTool('bones')">Bones Finder</button>
             </div>
         </div>
     </nav>
 
-    <!-- Support Banner Template (Injected into tools via JS for clean code) -->
+    <!-- Support Banner Template -->
     <template id="support-banner-template">
         <div class="support-card">
             <div class="support-section support-discord">
@@ -587,7 +538,6 @@
                 </div>
                 <textarea id="bytesInput" placeholder="e.g. 0x00, 0xFF, 0x66, 0xAA, 0x??, 0x66" oninput="convert('bytes')" onblur="formatActive('bytes')"></textarea>
             </div>
-            <!-- Banner injected here -->
         </div>
 
         <!-- TOOL 2: MERGER -->
@@ -607,7 +557,6 @@
                 </div>
                 <textarea id="mergeOutput" placeholder="FF ?? FF FF ?? 44 ?? 00 ??" readonly></textarea>
             </div>
-            <!-- Banner injected here -->
         </div>
 
         <!-- TOOL 3: WILDCARDS -->
@@ -618,18 +567,9 @@
                 <textarea id="wildcardInput" placeholder="e.g. FF FF FF ?? 00 11" oninput="generateWildcards()"></textarea>
             </div>
             <div class="stats-grid">
-                <div class="stat-box">
-                    <div class="stat-value" id="stat-total">0</div>
-                    <div class="stat-label">Total Bytes</div>
-                </div>
-                <div class="stat-box">
-                    <div class="stat-value" id="stat-hex">0</div>
-                    <div class="stat-label">Valid Hex Bytes</div>
-                </div>
-                <div class="stat-box">
-                    <div class="stat-value" id="stat-wild">0</div>
-                    <div class="stat-label">Existing Wildcards</div>
-                </div>
+                <div class="stat-box"><div class="stat-value" id="stat-total">0</div><div class="stat-label">Total Bytes</div></div>
+                <div class="stat-box"><div class="stat-value" id="stat-hex">0</div><div class="stat-label">Valid Hex Bytes</div></div>
+                <div class="stat-box"><div class="stat-value" id="stat-wild">0</div><div class="stat-label">Existing Wildcards</div></div>
             </div>
             <div class="panel">
                 <div class="panel-header">
@@ -638,7 +578,6 @@
                 </div>
                 <textarea id="wildcardOutput" placeholder="?? ?? ?? ?? ?? ??" readonly></textarea>
             </div>
-            <!-- Banner injected here -->
         </div>
 
         <!-- TOOL 4: OFFSET CALCULATOR -->
@@ -667,7 +606,41 @@
                     </div>
                 </div>
             </div>
-            <!-- Banner injected here -->
+        </div>
+
+        <!-- TOOL 5: BONES FINDER -->
+        <div id="tool-bones" class="tool-view">
+            <h1 class="section-title">Bones Finder</h1>
+            <div class="panel">
+                <div class="panel-header">
+                    <h2>Enter Head Base Offset</h2>
+                </div>
+                <div class="calc-row">
+                    <input type="text" id="headOffsetInput" placeholder="e.g. 0x458 or 458" />
+                </div>
+            </div>
+
+            <div class="merge-btn-container">
+                <button class="merge-btn" onclick="startBonesFinder()"><span>Extract Bones</span></button>
+            </div>
+
+            <div class="panel">
+                <div class="panel-header">
+                    <h2>C# Static Class Output</h2>
+                    <button class="action-btn" onclick="copyToClipboard('bonesOutput')">Copy Class</button>
+                </div>
+                
+                <!-- Fake Loading Animation -->
+                <div id="bones-loader" class="cyber-loader">
+                    <div class="scan-text">[>>] MEMORY DUMP IN PROGRESS...</div>
+                    <div class="scan-bar-container"><div class="scan-bar"></div></div>
+                </div>
+
+                <!-- Output Area -->
+                <div id="bones-output-container" style="display: none;">
+                    <textarea id="bonesOutput" class="bones-textarea" readonly placeholder="Waiting for head offset..."></textarea>
+                </div>
+            </div>
         </div>
     </main>
 
@@ -684,14 +657,10 @@
         });
 
         // --- MENU LOGIC ---
-        function toggleMenu() {
-            document.getElementById('dropdownMenu').classList.toggle('active');
-        }
-
+        function toggleMenu() { document.getElementById('dropdownMenu').classList.toggle('active'); }
         document.addEventListener('click', function(event) {
             const wrapper = document.querySelector('.menu-wrapper');
-            const menu = document.getElementById('dropdownMenu');
-            if (!wrapper.contains(event.target)) menu.classList.remove('active');
+            if (!wrapper.contains(event.target)) document.getElementById('dropdownMenu').classList.remove('active');
         });
 
         function switchTool(toolName) {
@@ -703,75 +672,57 @@
         // --- SHARED UTILS ---
         function copyToClipboard(elementId) {
             const el = document.getElementById(elementId);
-            if (!el.value) return;
-            el.select();
-            el.setSelectionRange(0, 99999);
+            if (!el.value) return; el.select(); el.setSelectionRange(0, 99999);
             navigator.clipboard.writeText(el.value).then(() => showToast());
         }
-
         function copyDivText(elementId) {
             const el = document.getElementById(elementId);
-            if (el.innerText === '---') return;
-            navigator.clipboard.writeText(el.innerText).then(() => showToast());
+            if (el.innerText === '---') return; navigator.clipboard.writeText(el.innerText).then(() => showToast());
         }
-
         let toastTimeout;
         function showToast() {
-            const toast = document.getElementById('toast');
-            toast.classList.add('show');
-            clearTimeout(toastTimeout);
-            toastTimeout = setTimeout(() => toast.classList.remove('show'), 2000);
+            const toast = document.getElementById('toast'); toast.classList.add('show');
+            clearTimeout(toastTimeout); toastTimeout = setTimeout(() => toast.classList.remove('show'), 2000);
         }
-
-        function normalizeAOB(input) {
-            let cleaned = input.replace(/0x/gi, '');
-            return cleaned.replace(/[^0-9A-Fa-f\?]/g, '').toUpperCase();
+        function normalizeAOB(input) { return input.replace(/0x/gi, '').replace(/[^0-9A-Fa-f\?]/g, '').toUpperCase(); }
+        function parseNumericInput(val) {
+            val = val.trim(); if (val === '') return null;
+            try { return BigInt(val.toLowerCase().startsWith('0x') ? val : '0x' + val.replace(/0x/gi, '')); } catch (e) { return null; }
         }
 
         // --- CONVERTER LOGIC ---
         function toHex(normalized) {
-            if (!normalized) return '';
-            const pairs = normalized.match(/.{1,2}/g) || [];
+            if (!normalized) return ''; const pairs = normalized.match(/.{1,2}/g) || [];
             return pairs.map(p => (p === '?' ? '??' : (p.length === 1 && p !== '?' ? '0' + p : p))).join(' ');
         }
-
         function toBytes(normalized) {
-            if (!normalized) return '';
-            const pairs = normalized.match(/.{1,2}/g) || [];
+            if (!normalized) return ''; const pairs = normalized.match(/.{1,2}/g) || [];
             return pairs.map(p => '0x' + (p === '?' ? '??' : (p.length === 1 && p !== '?' ? '0' + p : p))).join(', ');
         }
-
         function convert(source) {
             const hexEl = document.getElementById('hexInput'), bytesEl = document.getElementById('bytesInput');
             if (source === 'hex') bytesEl.value = toBytes(normalizeAOB(hexEl.value));
             else if (source === 'bytes') hexEl.value = toHex(normalizeAOB(bytesEl.value));
         }
-
         function formatActive(source) {
             const el = document.getElementById(source + 'Input');
-            if (source === 'hex') el.value = toHex(normalizeAOB(el.value));
-            else el.value = toBytes(normalizeAOB(el.value));
+            if (source === 'hex') el.value = toHex(normalizeAOB(el.value)); else el.value = toBytes(normalizeAOB(el.value));
         }
 
         // --- MERGER LOGIC ---
         function executeMerge() {
             const lines = document.getElementById('mergeInput').value.split('\n').map(l => l.trim()).filter(l => l.length > 0);
             if (lines.length === 0) { document.getElementById('mergeOutput').value = ''; return; }
-
             const parsedLines = lines.map(line => normalizeAOB(line).match(/.{1,2}/g) || []);
-            let maxLength = Math.max(...parsedLines.map(arr => arr.length));
-            let mergedAOB = [];
-
+            let maxLength = Math.max(...parsedLines.map(arr => arr.length)), mergedAOB = [];
             for (let i = 0; i < maxLength; i++) {
                 let currentByte = null, isWildcard = false;
                 for (let j = 0; j < parsedLines.length; j++) {
                     let byte = parsedLines[j][i];
                     if (byte === '?') byte = '??';
                     if (byte && byte.length === 1 && byte !== '?') byte = '0' + byte;
-
                     if (!byte || byte === '??') { isWildcard = true; break; }
-                    if (currentByte === null) currentByte = byte;
-                    else if (currentByte !== byte) { isWildcard = true; break; }
+                    if (currentByte === null) currentByte = byte; else if (currentByte !== byte) { isWildcard = true; break; }
                 }
                 mergedAOB.push(isWildcard ? '??' : currentByte);
             }
@@ -782,46 +733,100 @@
         function generateWildcards() {
             const pairs = normalizeAOB(document.getElementById('wildcardInput').value).match(/.{1,2}/g) || [];
             let total = pairs.length, wild = 0, hex = 0;
-            
             pairs.forEach(p => (p === '?' || p === '??') ? wild++ : hex++);
-            
-            document.getElementById('stat-total').innerText = total;
-            document.getElementById('stat-hex').innerText = hex;
+            document.getElementById('stat-total').innerText = total; document.getElementById('stat-hex').innerText = hex;
             document.getElementById('stat-wild').innerText = wild;
             document.getElementById('wildcardOutput').value = total === 0 ? '' : new Array(total).fill('??').join(' ');
         }
 
         // --- OFFSET CALCULATOR LOGIC ---
-        function parseNumericInput(val) {
-            val = val.trim();
-            if (val === '') return null;
-            try {
-                return BigInt(val);
-            } catch (e) {
-                return null;
-            }
-        }
-
         function calculateOffset() {
-            const valA = parseNumericInput(document.getElementById('calcInputA').value);
-            const valB = parseNumericInput(document.getElementById('calcInputB').value);
+            let valA = document.getElementById('calcInputA').value.trim();
+            let valB = document.getElementById('calcInputB').value.trim();
             const op = document.getElementById('calcOperator').value;
 
-            const resHexEl = document.getElementById('calcResultHex');
-            const resDecEl = document.getElementById('calcResultDec');
+            // Handle decimal vs hex for offset calc
+            const parseCalcInput = (v) => {
+                if (v === '') return null;
+                try { return v.toLowerCase().startsWith('0x') ? BigInt(v) : BigInt(v); } catch(e){ return null; }
+            };
 
-            if (valA === null || valB === null) {
-                resHexEl.innerText = '---';
-                resDecEl.innerText = '---';
+            valA = parseCalcInput(valA); valB = parseCalcInput(valB);
+            const resHexEl = document.getElementById('calcResultHex'), resDecEl = document.getElementById('calcResultDec');
+
+            if (valA === null || valB === null) { resHexEl.innerText = '---'; resDecEl.innerText = '---'; return; }
+            const result = op === '+' ? (valA + valB) : (valA - valB);
+            const sign = result < 0n ? '-' : ''; const absResult = result < 0n ? -result : result;
+            resHexEl.innerText = sign + '0x' + absResult.toString(16).toUpperCase();
+            resDecEl.innerText = result.toString(10);
+        }
+
+        // --- BONES FINDER LOGIC ---
+        const boneDistances = {
+            Spine: 0x8,
+            Hip: 0x4,
+            Root: 0x14,
+            LeftAnkle: 0x1C,
+            RightAnkle: 0x20,
+            LeftFoot: 0x24,
+            RightFoot: 0x28,
+            LeftShoulder: 0x34,
+            RightShoulder: 0x38,
+            RightHand: 0x3C,
+            LeftHand: 0x40,
+            RightElbow: 0x44,
+            LeftElbow: 0x48
+        };
+
+        function startBonesFinder() {
+            const inputVal = document.getElementById('headOffsetInput').value.trim();
+            const headBase = parseNumericInput(inputVal); // Always treats as Hex internally
+
+            if (headBase === null) {
+                alert("Please enter a valid Hexadecimal head offset (e.g. 0x458).");
                 return;
             }
 
-            const result = op === '+' ? (valA + valB) : (valA - valB);
-            const sign = result < 0n ? '-' : '';
-            const absResult = result < 0n ? -result : result;
+            // UI Transitions: Show Fake Loader
+            document.getElementById('bones-output-container').style.display = 'none';
+            document.getElementById('bones-loader').style.display = 'flex';
 
-            resHexEl.innerText = sign + '0x' + absResult.toString(16).toUpperCase();
-            resDecEl.innerText = result.toString(10);
+            const scanText = document.querySelector('.scan-text');
+            const messages = [
+                "[>>] MEMORY DUMP IN PROGRESS...",
+                "[>>] EXTRACTING POINTERS...",
+                "[>>] ALIGNING STRUCT OFFSETS...",
+                "[>>] CLASS GENERATION COMPLETE"
+            ];
+            
+            let msgIndex = 0;
+            const textInterval = setInterval(() => {
+                msgIndex++;
+                if (msgIndex < messages.length) scanText.innerText = messages[msgIndex];
+            }, 600);
+
+            // Fake processing delay (2 seconds)
+            setTimeout(() => {
+                clearInterval(textInterval);
+                scanText.innerText = "[>>] MEMORY DUMP IN PROGRESS..."; // Reset for next time
+
+                // Generate C# Code
+                let code = `internal static class Bones\n{\n`;
+                code += `    internal static uint Head = 0x${headBase.toString(16).toLowerCase()};\n`;
+                
+                for (const [bone, distance] of Object.entries(boneDistances)) {
+                    let calcOffset = headBase + BigInt(distance);
+                    code += `    internal static uint ${bone} = 0x${calcOffset.toString(16).toLowerCase()};\n`;
+                }
+                code += `}`;
+
+                document.getElementById('bonesOutput').value = code;
+
+                // UI Transitions: Show Result
+                document.getElementById('bones-loader').style.display = 'none';
+                document.getElementById('bones-output-container').style.display = 'block';
+
+            }, 2400); // 2.4 seconds delay for maximum cool factor
         }
     </script>
 </body>
